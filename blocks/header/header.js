@@ -80,7 +80,9 @@ function normalizeHref(value) {
 function sanitizeAssetUrl(value, fallback = '') {
   const src = value?.trim();
   if (!src || src.includes('%E2%80%A6') || src.includes('…')) return fallback;
-  if (src.startsWith('/adobe/dynamicmedia/')) return `https://www.krisshop.com${src}`;
+  if (src.startsWith('/adobe/dynamicmedia/') || src.startsWith('/content/dam/')) {
+    return `https://www.krisshop.com${src}`;
+  }
   return src;
 }
 

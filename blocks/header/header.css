@@ -37,11 +37,11 @@ header .for-mobile {
 }
 
 header img.for-mobile {
-  display: none;
+  display: none !important;
 }
 
 header img.for-tablet {
-  display: block;
+  display: block !important;
 }
 
 header .hidden,
@@ -62,18 +62,6 @@ header .logo-wrapper img {
   display: block;
   max-width: 205px;
   max-height: 40px;
-}
-
-header .logo-wrapper a::after {
-  content: "";
-  display: inline-block;
-  width: 27px;
-  height: 27px;
-  margin-left: 14px;
-  border-top: 4px solid currentcolor;
-  border-right: 4px solid currentcolor;
-  transform: rotate(45deg) skew(8deg, 8deg);
-  opacity: 0.65;
 }
 
 header .header-top-right-content {
@@ -574,6 +562,11 @@ header .header-search-result.header-search-result-is-opened {
   display: block;
 }
 
+header [data-header-fragment*="/header/delivery-notice"],
+header [data-header-fragment*="/header/traveller-mode-message"] {
+  display: none;
+}
+
 header .header-search-result-wrapper {
   max-width: 1320px;
   margin: 0 auto;
@@ -669,7 +662,11 @@ header .listRowLabel {
   }
 
   header img.for-mobile {
-    display: block;
+    display: block !important;
+  }
+
+  header img.for-tablet {
+    display: none !important;
   }
 
   header .for-mobile,
