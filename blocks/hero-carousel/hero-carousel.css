@@ -28,6 +28,11 @@
   text-decoration: none;
 }
 
+.hero-carousel .hero-carousel-slide:any-link,
+.hero-carousel .hero-carousel-slide:any-link:hover {
+  color: #fff;
+}
+
 .hero-carousel-slide picture,
 .hero-carousel-slide img {
   display: block;

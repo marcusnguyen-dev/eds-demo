@@ -57,6 +57,7 @@ function createSlide(row, index) {
     img.alt = desktopImage.alt;
     img.loading = index === 0 ? 'eager' : 'lazy';
     img.fetchPriority = index === 0 ? 'high' : 'auto';
+    img.addEventListener('error', () => picture.remove());
     picture.append(img);
     slide.append(picture);
   }
