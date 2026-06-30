@@ -7,25 +7,26 @@
   left: 0;
   z-index: 1000;
   box-sizing: border-box;
-  background: #fff;
-  border-top: 1px solid #d8d8d8;
-  box-shadow: 0 -2px 12px rgb(0 0 0 / 12%);
+  background: rgb(0 0 0 / 82%);
+  border-top: 0;
+  box-shadow: 0 -2px 12px rgb(0 0 0 / 24%);
 }
 
 .cookie-consent .cookie-content {
-  max-width: 1280px;
+  max-width: 1680px;
   margin: 0 auto;
-  padding: 18px 24px;
+  padding: 24px 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 48px;
 }
 
 .cookie-consent .cookieConsentBarText {
-  color: #282828;
+  color: #fff;
   font-size: 14px;
   line-height: 1.5;
+  font-weight: 600;
 }
 
 .cookie-consent .cookieConsentBarContent p {
@@ -38,20 +39,21 @@
 }
 
 .cookie-consent .cookieConsentBarButton {
-  min-width: 148px;
-  min-height: 40px;
-  border: 1px solid #000;
-  background: #000;
+  min-width: 200px;
+  min-height: 48px;
+  border: 2px solid #fff;
+  background: transparent;
   color: #fff;
   cursor: pointer;
   font: inherit;
   font-size: 13px;
   font-weight: 700;
+  text-transform: uppercase;
 }
 
 @media (width < 768px) {
   .cookie-consent .cookie-content {
-    padding: 16px;
+    padding: 18px;
     display: block;
   }
 

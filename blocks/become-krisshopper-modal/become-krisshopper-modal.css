@@ -3,7 +3,7 @@
 .become-krisshopper-modal.modal {
   position: fixed;
   inset: 50% auto auto 50%;
-  z-index: 1100;
+  z-index: 1200;
   width: min(720px, calc(100vw - 32px));
   max-height: calc(100dvh - 48px);
   display: none;
@@ -14,8 +14,7 @@
   box-shadow: 0 12px 40px rgb(0 0 0 / 30%);
 }
 
-.become-krisshopper-modal.modal-is-opened,
-.become-krisshopper-modal:not(:empty) {
+.become-krisshopper-modal.modal-is-opened {
   display: flex;
 }
 
@@ -198,7 +197,12 @@
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: rgb(0 0 0 / 40%);
+  display: none;
+  background: rgb(0 0 0 / 64%);
+}
+
+.become-krisshopper-modal.modal-is-opened .modal-backdrop {
+  display: block;
 }
 
 @media (width < 768px) {

@@ -31,20 +31,26 @@ function getTarget(targetName) {
 }
 
 function placeFragment(target, fragment, position) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'header-fragment';
+  wrapper.dataset.headerFragment = fragment.dataset.headerFragment;
+  wrapper.dataset.headerFragmentLabel = fragment.dataset.headerFragmentLabel;
+  wrapper.append(...fragment.childNodes);
+
   if (position === 'prepend') {
-    target.prepend(fragment);
+    target.prepend(wrapper);
     return;
   }
 
   if (position === 'before-header-block') {
     const headerBlock = target.querySelector('.header-wrapper');
     if (headerBlock) {
-      headerBlock.before(fragment);
+      headerBlock.before(wrapper);
       return;
     }
   }
 
-  target.append(fragment);
+  target.append(wrapper);
 }
 
 export default async function decorate(block) {

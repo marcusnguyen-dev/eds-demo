@@ -1,27 +1,27 @@
 /* stylelint-disable selector-class-pattern */
 
 .target-segment-prompt.targetSegmentPrompt {
-  background: #fff;
+  background: #a5a5a5;
   color: #282828;
-  border-bottom: 1px solid #d8d8d8;
+  border-bottom: 2px solid #000;
 }
 
 .target-segment-prompt .targetSegmentPromptBanner {
-  min-height: 42px;
+  min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #000;
   color: #fff;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 400;
   line-height: 1.2;
   text-align: center;
   text-transform: uppercase;
 }
 
 .target-segment-prompt .targetSegmentPromptContent {
-  max-width: 1200px;
+  max-width: 1320px;
   margin: 0 auto;
 }
 
@@ -31,24 +31,24 @@
 }
 
 .target-segment-prompt .targetSegmentPromptOption {
-  min-height: 168px;
-  padding: 26px 40px 30px;
+  min-height: 170px;
+  padding: 24px 40px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: 16px;
   text-align: center;
 }
 
 .target-segment-prompt .targetSegmentPromptOption + .targetSegmentPromptOption {
-  border-left: 1px solid #e5e5e5;
+  border-left: 1px solid #686868;
 }
 
 .target-segment-prompt .targetSegmentPromptOptionHeadline {
-  max-width: 520px;
-  color: #b6b6b6;
-  font-size: 20px;
+  max-width: 560px;
+  color: #000;
+  font-size: 22px;
   font-weight: 700;
   line-height: 1.25;
 }
@@ -59,10 +59,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #bdbdbd;
-  background: #fff;
-  color: #aaa;
-  font-size: 14px;
+  border: 2px solid #000;
+  background: transparent;
+  color: #000;
+  font-size: 16px;
   font-weight: 600;
   text-decoration: none;
 }
@@ -93,7 +93,7 @@
 
 @media (width < 768px) {
   .target-segment-prompt .targetSegmentPromptBanner {
-    min-height: 38px;
+    min-height: 44px;
     padding: 0 16px;
     font-size: 16px;
   }
@@ -108,7 +108,7 @@
   }
 
   .target-segment-prompt .targetSegmentPromptOption + .targetSegmentPromptOption {
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #686868;
     border-left: 0;
   }
 
