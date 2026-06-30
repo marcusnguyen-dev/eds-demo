@@ -24,6 +24,37 @@ Author blocks in the same order as the XF:
 5. `html-source` inside a section for traveller mode message
 6. `html-source` inside a section for promo message
 
+In EDS, keep `/nav` focused on header composition. Put the non-header XF components in separate fragments, then include them from `/nav` with `header-fragments`.
+
+Recommended fragment paths:
+
+| AEM XF node | EDS fragment path |
+| --- | --- |
+| `cookies` | `/header/cookies` |
+| `htmlsource` | `/header/traveller-maintenance` |
+| `targetSegment.html` prompt | `/header/target-segment` |
+| `becomekrisshoppermod` | `/header/become-krisshopper` |
+| `sectioncontainer` | `/header/traveller-mode-message` |
+| `sectioncontainer_1357024426` | `/header/promo-message` |
+
+## `/nav` Include Table
+
+Add this block to `/nav` above or below the header config rows:
+
+| header-fragments | | | |
+| --- | --- | --- | --- |
+| Label | Path | Target | Position |
+| Cookies | /header/cookies | header | prepend |
+| Maintenance | /header/traveller-maintenance | header | prepend |
+| Target Segment | /header/target-segment | header | prepend |
+| Become KrisShopper | /header/become-krisshopper | header | append |
+| Traveller Mode Message | /header/traveller-mode-message | header | append |
+| Promo Message | /header/promo-message | header | append |
+
+`Target` can be `header`, `body`, or `main`. For Header XF parity, use `header`.
+
+Do not create a block named `header-fragments` unless this source contains `blocks/header-fragments`; otherwise EDS will request `/blocks/header-fragments/header-fragments.js` and show a 404.
+
 ## Cookie Consent
 
 | cookie-consent | |
