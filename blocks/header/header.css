@@ -283,17 +283,6 @@ header .flyout {
   color: #282828;
 }
 
-header .currency-wrapper:hover .currency-list-content,
-header .currency-wrapper.active .currency-list-content,
-header .travel-segment-wrapper:hover .travel-segment-content,
-header .travel-segment-wrapper.active .travel-segment-content,
-header .mini-cart:hover .cart-content,
-header .mini-cart .cart.active .cart-content,
-header .customer-account:hover .customer-account-content,
-header .customer-account.active .customer-account-content {
-  display: block;
-}
-
 header .currency-list-content {
   right: 0;
   width: 345px;
@@ -388,6 +377,17 @@ header .cart-empty-headline {
 header .customer-account-content {
   width: 300px;
   right: 0;
+}
+
+header .currency-wrapper:hover .currency-list-content,
+header .currency-wrapper.active .currency-list-content,
+header .travel-segment-wrapper:hover .travel-segment-content,
+header .travel-segment-wrapper.active .travel-segment-content,
+header .mini-cart:hover .cart-content,
+header .mini-cart .cart.active .cart-content,
+header .customer-account:hover .customer-account-content,
+header .customer-account.active .customer-account-content {
+  display: block;
 }
 
 header .customer-account-action-wrapper {

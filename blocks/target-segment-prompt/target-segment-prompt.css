@@ -1,15 +1,12 @@
 /* stylelint-disable selector-class-pattern */
 
 .target-segment-prompt.targetSegmentPrompt {
-  bottom: 0;
   color: #282828;
   display: flex;
   flex-direction: column;
-  left: 0;
+  inset: -31.25rem 0 0;
   pointer-events: none;
   position: fixed;
-  right: 0;
-  top: -31.25rem;
   transition: top 0.5s ease-in-out;
   z-index: 10001;
 }
