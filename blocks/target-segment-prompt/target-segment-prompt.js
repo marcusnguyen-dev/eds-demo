@@ -31,8 +31,23 @@ function getConfig(block) {
   return config;
 }
 
+function getCookie(name) {
+  return document.cookie
+    .split(';')
+    .map((item) => item.trim())
+    .find((item) => item.startsWith(`${name}=`))
+    ?.split('=')
+    .slice(1)
+    .join('=') || '';
+}
+
+function setCookie(name, value) {
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; SameSite=Lax`;
+}
+
 function setSegment(segmentName) {
-  window.localStorage.setItem('ks-target-segment', segmentName);
+  setCookie('targetSegment', segmentName);
+  setCookie('targetSegmentReminderSeen', 'true');
 }
 
 export default function decorate(block) {
@@ -65,6 +80,10 @@ export default function decorate(block) {
     </div>
     <div class="targetSegmentPromptBackdrop"></div>
   `;
+
+  if (!getCookie('targetSegment') && !getCookie('targetSegmentReminderSeen')) {
+    block.classList.add('targetSegmentPromptActive');
+  }
 
   block.querySelectorAll('[data-segment-name]').forEach((element) => {
     element.addEventListener('click', () => setSegment(element.dataset.segmentName));

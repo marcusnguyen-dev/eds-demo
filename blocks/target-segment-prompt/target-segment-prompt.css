@@ -1,9 +1,22 @@
 /* stylelint-disable selector-class-pattern */
 
 .target-segment-prompt.targetSegmentPrompt {
-  background: #a5a5a5;
+  bottom: 0;
   color: #282828;
-  border-bottom: 2px solid #000;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: -31.25rem;
+  transition: top 0.5s ease-in-out;
+  z-index: 10001;
+}
+
+.target-segment-prompt.targetSegmentPrompt.targetSegmentPromptActive {
+  pointer-events: all;
+  top: 0;
 }
 
 .target-segment-prompt .targetSegmentPromptBanner {
@@ -21,18 +34,22 @@
 }
 
 .target-segment-prompt .targetSegmentPromptContent {
-  max-width: 1320px;
-  margin: 0 auto;
+  background: #fff;
+  display: flex;
+  justify-content: center;
 }
 
 .target-segment-prompt .targetSegmentPromptOptions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  max-width: 1240px;
+  padding: 24px 32px 32px;
 }
 
 .target-segment-prompt .targetSegmentPromptOption {
-  min-height: 170px;
-  padding: 24px 40px 32px;
+  width: 50%;
+  padding: 0 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,7 +59,7 @@
 }
 
 .target-segment-prompt .targetSegmentPromptOption + .targetSegmentPromptOption {
-  border-left: 1px solid #686868;
+  border-left: 1px solid #b2b2b2;
 }
 
 .target-segment-prompt .targetSegmentPromptOptionHeadline {
@@ -67,6 +84,11 @@
   text-decoration: none;
 }
 
+.target-segment-prompt .targetSegmentPromptOptionButton:hover {
+  background: #000;
+  color: #fff;
+}
+
 .target-segment-prompt .buttonContentTargetSegment {
   display: inline-flex;
   align-items: center;
@@ -88,7 +110,15 @@
 }
 
 .target-segment-prompt .targetSegmentPromptBackdrop {
-  display: none;
+  background: #000;
+  flex: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.target-segment-prompt.targetSegmentPrompt.targetSegmentPromptActive .targetSegmentPromptBackdrop {
+  opacity: 0.4;
+  transition: opacity 0.3s ease-in-out 0.2s;
 }
 
 @media (width < 768px) {
@@ -99,12 +129,13 @@
   }
 
   .target-segment-prompt .targetSegmentPromptOptions {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    padding: 14px 16px;
   }
 
   .target-segment-prompt .targetSegmentPromptOption {
-    min-height: auto;
-    padding: 20px 18px;
+    width: 100%;
+    padding: 14px 0;
   }
 
   .target-segment-prompt .targetSegmentPromptOption + .targetSegmentPromptOption {
