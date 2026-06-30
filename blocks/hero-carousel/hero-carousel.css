@@ -25,6 +25,7 @@
   overflow: hidden;
   position: relative;
   text-decoration: none;
+  width: 100%;
 }
 
 .hero-carousel-slide[hidden] {
