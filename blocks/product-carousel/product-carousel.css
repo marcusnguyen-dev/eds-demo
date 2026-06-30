@@ -24,6 +24,12 @@
   scroll-snap-type: x mandatory;
 }
 
+.product-carousel-track.product-carousel-flickity {
+  display: block;
+  overflow: visible;
+  padding: 0 44px 28px;
+}
+
 .product-carousel-card {
   background: #fff;
   border: 1px solid #e4e4e4;
@@ -33,6 +39,12 @@
   min-height: 100%;
   scroll-snap-align: start;
   text-decoration: none;
+}
+
+.product-carousel-flickity .product-carousel-card {
+  margin-right: 16px;
+  min-height: 100%;
+  width: 210px;
 }
 
 .product-carousel-card:hover {
@@ -99,5 +111,9 @@
 @media (width >= 900px) {
   .product-carousel-track {
     grid-auto-columns: minmax(210px, 1fr);
+  }
+
+  .product-carousel-flickity .product-carousel-card {
+    width: 220px;
   }
 }

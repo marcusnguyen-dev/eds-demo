@@ -1,4 +1,5 @@
 import fetchProducts from '../../scripts/commerce-api.js';
+import loadFlickity from '../../scripts/flickity-loader.js';
 
 function text(cell) {
   return cell?.textContent.trim() || '';
@@ -95,6 +96,25 @@ function showMessage(track, message) {
   track.replaceChildren(item);
 }
 
+function initFlickity(track) {
+  loadFlickity()
+    .then((Flickity) => {
+      track.classList.add('product-carousel-flickity');
+      // eslint-disable-next-line no-new
+      new Flickity(track, {
+        cellAlign: 'left',
+        contain: true,
+        groupCells: true,
+        pageDots: false,
+        prevNextButtons: true,
+      });
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.warn('Flickity failed for product carousel', error);
+    });
+}
+
 export default async function decorate(block) {
   const config = getConfig(block);
   const shell = document.createElement('section');
@@ -136,6 +156,7 @@ export default async function decorate(block) {
     }
 
     track.replaceChildren(...products.map(createProductCard));
+    initFlickity(track);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn('Product carousel failed', error);

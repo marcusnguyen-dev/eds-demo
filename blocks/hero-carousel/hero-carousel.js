@@ -1,3 +1,5 @@
+import loadFlickity from '../../scripts/flickity-loader.js';
+
 function text(cell) {
   return cell?.textContent.trim() || '';
 }
@@ -110,6 +112,67 @@ function setActive(block, index) {
   block.dataset.activeSlide = String(nextIndex);
 }
 
+function initFallbackControls(block, slides) {
+  if (slides.length <= 1) return;
+
+  const controls = document.createElement('div');
+  controls.className = 'hero-carousel-controls';
+
+  const previous = document.createElement('button');
+  previous.className = 'hero-carousel-arrow hero-carousel-arrow-prev';
+  previous.type = 'button';
+  previous.setAttribute('aria-label', 'Previous slide');
+  previous.textContent = '<';
+  previous.addEventListener('click', () => setActive(block, Number(block.dataset.activeSlide) - 1));
+  block.append(previous);
+
+  slides.forEach((slide, index) => {
+    const dot = document.createElement('button');
+    dot.className = 'hero-carousel-dot';
+    dot.type = 'button';
+    dot.setAttribute('aria-label', `Show slide ${index + 1}`);
+    dot.addEventListener('click', () => setActive(block, index));
+    controls.append(dot);
+  });
+
+  block.append(controls);
+
+  const next = document.createElement('button');
+  next.className = 'hero-carousel-arrow hero-carousel-arrow-next';
+  next.type = 'button';
+  next.setAttribute('aria-label', 'Next slide');
+  next.textContent = '>';
+  next.addEventListener('click', () => setActive(block, Number(block.dataset.activeSlide) + 1));
+  block.append(next);
+}
+
+function initFlickity(block, viewport) {
+  loadFlickity()
+    .then((Flickity) => {
+      block.classList.add('flickity-enabled-block');
+      [...viewport.children].forEach((slide) => {
+        slide.hidden = false;
+        slide.removeAttribute('aria-hidden');
+      });
+      // eslint-disable-next-line no-new
+      new Flickity(viewport, {
+        adaptiveHeight: false,
+        autoPlay: 5000,
+        cellAlign: 'left',
+        contain: true,
+        imagesLoaded: true,
+        pageDots: true,
+        pauseAutoPlayOnHover: true,
+        prevNextButtons: true,
+        wrapAround: true,
+      });
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.warn('Flickity failed for hero carousel', error);
+    });
+}
+
 export default function decorate(block) {
   const rows = normalizeRows(block);
   const slides = rows.map(createSlide).filter((slide) => slide.querySelector('picture'));
@@ -121,37 +184,7 @@ export default function decorate(block) {
   slides.forEach((slide) => viewport.append(slide));
   block.replaceChildren(viewport);
 
-  if (slides.length > 1) {
-    const controls = document.createElement('div');
-    controls.className = 'hero-carousel-controls';
-
-    const previous = document.createElement('button');
-    previous.className = 'hero-carousel-arrow hero-carousel-arrow-prev';
-    previous.type = 'button';
-    previous.setAttribute('aria-label', 'Previous slide');
-    previous.textContent = '<';
-    previous.addEventListener('click', () => setActive(block, Number(block.dataset.activeSlide) - 1));
-    block.append(previous);
-
-    slides.forEach((slide, index) => {
-      const dot = document.createElement('button');
-      dot.className = 'hero-carousel-dot';
-      dot.type = 'button';
-      dot.setAttribute('aria-label', `Show slide ${index + 1}`);
-      dot.addEventListener('click', () => setActive(block, index));
-      controls.append(dot);
-    });
-
-    block.append(controls);
-
-    const next = document.createElement('button');
-    next.className = 'hero-carousel-arrow hero-carousel-arrow-next';
-    next.type = 'button';
-    next.setAttribute('aria-label', 'Next slide');
-    next.textContent = '>';
-    next.addEventListener('click', () => setActive(block, Number(block.dataset.activeSlide) + 1));
-    block.append(next);
-  }
-
   setActive(block, 0);
+  initFallbackControls(block, slides);
+  initFlickity(block, viewport);
 }

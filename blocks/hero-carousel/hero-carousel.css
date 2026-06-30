@@ -14,6 +14,10 @@
   position: relative;
 }
 
+.hero-carousel .flickity-viewport {
+  min-height: clamp(360px, 52vw, 620px);
+}
+
 .hero-carousel-slide {
   color: inherit;
   display: block;
@@ -25,6 +29,10 @@
 
 .hero-carousel-slide[hidden] {
   display: none;
+}
+
+.hero-carousel.flickity-enabled-block .hero-carousel-slide[hidden] {
+  display: block;
 }
 
 .hero-carousel-slide:hover {
@@ -161,6 +169,28 @@
 
 .hero-carousel-dot[aria-current='true'] {
   background: #fff;
+  width: 28px;
+}
+
+.hero-carousel.flickity-enabled-block > .hero-carousel-arrow,
+.hero-carousel.flickity-enabled-block > .hero-carousel-controls {
+  display: none;
+}
+
+.hero-carousel .flickity-page-dots {
+  bottom: 24px;
+}
+
+.hero-carousel .flickity-page-dots .dot {
+  background: #fff;
+  height: 10px;
+  opacity: 0.55;
+  width: 10px;
+}
+
+.hero-carousel .flickity-page-dots .dot.is-selected {
+  border-radius: 999px;
+  opacity: 1;
   width: 28px;
 }
 
