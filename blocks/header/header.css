@@ -36,6 +36,14 @@ header .for-mobile {
   display: none;
 }
 
+header img.for-mobile {
+  display: none;
+}
+
+header img.for-tablet {
+  display: block;
+}
+
 header .hidden,
 header .skeleton-headers {
   display: none !important;
@@ -72,6 +80,10 @@ header .header-top-right-content {
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+header .header-top-right {
+  margin-left: auto;
 }
 
 header .header-element,
@@ -472,13 +484,80 @@ header .header-search-result {
 }
 
 header .svgIcon svg {
-  width: 100%;
-  height: 100%;
-  display: block;
+  display: none;
 }
 
 header .svgIconUse {
   pointer-events: none;
+}
+
+header .desktop-header-select-icon,
+header .mobileHeaderSelectIcon,
+header .header-wishlist-icon,
+header .header-mini-cart-icon,
+header .header-account-icon,
+header .modalHeaderButtonIcon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  color: #282828;
+}
+
+header .svgIconPlane::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 8px;
+  width: 18px;
+  height: 9px;
+  border: 2px solid currentcolor;
+  border-radius: 2px;
+}
+
+header .svgIconCurrencySGD::before {
+  content: "$";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+header .svgIconArrowChevronDown::before,
+header .modalHeaderButtonIcon::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid currentcolor;
+  border-bottom: 1px solid currentcolor;
+}
+
+header .svgIconArrowChevronDown::before {
+  transform: rotate(45deg);
+}
+
+header .modalHeaderButtonIcon::before {
+  transform: rotate(-45deg);
+}
+
+header .header-wishlist-icon::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 7px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentcolor;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg);
 }
 
 header .header-search-result {
@@ -587,6 +666,10 @@ header .listRowLabel {
 
   header .for-tablet {
     display: none !important;
+  }
+
+  header img.for-mobile {
+    display: block;
   }
 
   header .for-mobile,
