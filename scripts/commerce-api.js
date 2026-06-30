@@ -102,6 +102,11 @@ function formatPrice(price) {
   }
 }
 
+function appendImageWidth(url, width) {
+  if (!url || url.includes('wid=')) return url;
+  return `${url}${url.includes('?') ? '&' : '?'}wid=${width}`;
+}
+
 function productUrl(product, productBasePath = '/en/product') {
   if (!product?.url_key && !product?.sku) return '#';
   const key = product.url_key || product.sku;
@@ -110,14 +115,23 @@ function productUrl(product, productBasePath = '/en/product') {
 
 function normalizeProduct(product, productBasePath) {
   const minimum = product?.price_range?.minimum_price;
+  const regular = minimum?.regular_price;
+  const final = minimum?.final_price;
+  const regularValue = Number(regular?.value);
+  const finalValue = Number(final?.value);
+  const hasDiscount = Number.isFinite(regularValue)
+    && Number.isFinite(finalValue)
+    && regularValue > finalValue;
+
   return {
     brand: product?.custom_attributes?.product_brand?.option_label || '',
-    image: product?.detail_image_url1 || product?.image?.url || '',
+    finalPrice: formatPrice(final || regular),
+    hasDiscount,
+    image: appendImageWidth(product?.detail_image_url1 || product?.image?.url || '', 190),
     imageAlt: product?.image?.label || product?.title || product?.name || product?.sku || '',
     miles: product?.custom_attributes?.miles_point || '',
     name: product?.title || product?.name || product?.sku || '',
-    price: formatPrice(minimum?.final_price || minimum?.regular_price),
-    regularPrice: formatPrice(minimum?.regular_price),
+    regularPrice: formatPrice(regular),
     sku: product?.sku || '',
     stockStatus: product?.stock_status || '',
     url: productUrl(product, productBasePath),

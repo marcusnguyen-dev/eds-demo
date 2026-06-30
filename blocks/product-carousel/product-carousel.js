@@ -41,51 +41,79 @@ function getConfig(block) {
 
 function createProductCard(product) {
   const card = document.createElement('a');
-  card.className = 'product-carousel-card';
+  card.className = 'product-slider-item';
   card.href = product.url;
   card.title = product.name;
+  card.dataset.analytic = 'ctaClick';
 
-  const media = document.createElement('span');
-  media.className = 'product-carousel-media';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'product-info-wrapper';
 
   if (product.image) {
+    const media = document.createElement('div');
+    media.className = 'product-image';
+
     const img = document.createElement('img');
     img.src = product.image;
+    img.dataset.src = product.image;
     img.alt = product.imageAlt || product.name;
+    img.className = '-widget-image widget-image';
     img.loading = 'lazy';
     media.append(img);
+    wrapper.append(media);
   }
 
-  const body = document.createElement('span');
-  body.className = 'product-carousel-body';
+  const body = document.createElement('div');
+  body.className = 'product-info-content';
 
   if (product.brand) {
-    const brand = document.createElement('span');
-    brand.className = 'product-carousel-brand';
+    const brand = document.createElement('div');
+    brand.className = 'brand-name';
     brand.textContent = product.brand;
     body.append(brand);
   }
 
-  const name = document.createElement('span');
-  name.className = 'product-carousel-name';
-  name.textContent = product.name;
+  const name = document.createElement('div');
+  name.className = 'product-compact-name';
+  const blur = document.createElement('div');
+  blur.className = 'blur-element';
+  name.append(blur);
+  name.append(document.createTextNode(product.name));
   body.append(name);
 
-  if (product.price) {
-    const price = document.createElement('span');
-    price.className = 'product-carousel-price';
-    price.textContent = product.price;
-    body.append(price);
+  const priceInfo = document.createElement('div');
+  priceInfo.className = 'price-info';
+  const priceContainer = document.createElement('div');
+  priceContainer.className = 'price-container';
+  const priceLine = document.createElement('div');
+  priceLine.className = 'price-line product-price-line';
+
+  const finalPrice = document.createElement('span');
+  finalPrice.className = product.hasDiscount ? 'final-price price-discounted' : 'price-original final-price';
+  finalPrice.textContent = product.finalPrice || product.regularPrice;
+  priceLine.append(finalPrice);
+
+  if (product.hasDiscount && product.regularPrice) {
+    const regularPrice = document.createElement('span');
+    regularPrice.className = 'price-original old-price';
+    regularPrice.textContent = product.regularPrice;
+    priceLine.append(regularPrice);
   }
+
+  priceContainer.append(priceLine);
 
   if (product.miles) {
-    const miles = document.createElement('span');
-    miles.className = 'product-carousel-miles';
+    const miles = document.createElement('div');
+    miles.className = 'kris-shop-miles';
     miles.textContent = `or ${product.miles} miles`;
-    body.append(miles);
+    priceContainer.append(miles);
   }
 
-  card.append(media, body);
+  priceInfo.append(priceContainer);
+  body.append(priceInfo);
+
+  wrapper.append(body);
+  card.append(wrapper);
   return card;
 }
 
@@ -117,20 +145,23 @@ function initFlickity(track) {
 
 export default async function decorate(block) {
   const config = getConfig(block);
-  const shell = document.createElement('section');
-  shell.className = 'product-carousel-shell';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'products-slider-wrapper';
 
   if (config.title) {
     const heading = document.createElement('h2');
     heading.textContent = config.title;
-    shell.append(heading);
+    wrapper.append(heading);
   }
 
+  const content = document.createElement('div');
+  content.className = 'products-slider-content';
   const track = document.createElement('div');
-  track.className = 'product-carousel-track';
+  track.className = 'products-slider';
   track.setAttribute('aria-live', 'polite');
-  shell.append(track);
-  block.replaceChildren(shell);
+  content.append(track);
+  wrapper.append(content);
+  block.replaceChildren(wrapper);
 
   showMessage(track, 'Loading products...');
 
