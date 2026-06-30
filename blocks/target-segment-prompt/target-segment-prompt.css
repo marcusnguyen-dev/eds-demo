@@ -118,6 +118,94 @@
   transition: opacity 0.3s ease-in-out 0.2s;
 }
 
+.target-segment-prompt .targetSegmentReminder {
+  display: none;
+  position: fixed;
+  z-index: 10002;
+  right: 98px;
+  top: 118px;
+  width: 320px;
+  color: #282828;
+  pointer-events: none;
+}
+
+.target-segment-prompt .targetSegmentReminder.targetSegmentReminderActive {
+  display: block;
+  pointer-events: all;
+}
+
+.target-segment-prompt .targetSegmentReminderMobile {
+  display: none;
+}
+
+.target-segment-prompt .targetSegmentReminderTriangle {
+  width: 0;
+  height: 0;
+  margin-left: auto;
+  margin-right: 34px;
+  border-right: 9px solid transparent;
+  border-bottom: 10px solid #fff;
+  border-left: 9px solid transparent;
+}
+
+.target-segment-prompt .targetSegmentReminderContent {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 2px 20px rgb(0 0 0 / 18%);
+}
+
+.target-segment-prompt .targetSegmentReminderText {
+  flex: 1;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.target-segment-prompt .targetSegmentReminderText.hidden {
+  display: none;
+}
+
+.target-segment-prompt .targetSegmentReminderLink,
+.target-segment-prompt .targetSegmentReminder a {
+  color: #000;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.target-segment-prompt .targetSegmentReminderIcon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.target-segment-prompt .targetSegmentReminderButtonIcon {
+  width: 18px;
+  height: 18px;
+  position: relative;
+}
+
+.target-segment-prompt .targetSegmentReminderButtonIcon::before,
+.target-segment-prompt .targetSegmentReminderButtonIcon::after {
+  content: "";
+  width: 18px;
+  height: 2px;
+  position: absolute;
+  left: 0;
+  top: 8px;
+  background: currentcolor;
+}
+
+.target-segment-prompt .targetSegmentReminderButtonIcon::before {
+  transform: rotate(45deg);
+}
+
+.target-segment-prompt .targetSegmentReminderButtonIcon::after {
+  transform: rotate(-45deg);
+}
+
 @media (width < 768px) {
   .target-segment-prompt .targetSegmentPromptBanner {
     min-height: 44px;
@@ -147,5 +235,15 @@
   .target-segment-prompt .targetSegmentPromptOptionButton {
     min-width: 0;
     width: 100%;
+  }
+
+  .target-segment-prompt .targetSegmentReminderDesktop {
+    display: none !important;
+  }
+
+  .target-segment-prompt .targetSegmentReminderMobile.targetSegmentReminderActive {
+    display: block;
+    inset: auto 16px 16px;
+    width: auto;
   }
 }

@@ -45,9 +45,34 @@ function setCookie(name, value) {
   document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; SameSite=Lax`;
 }
 
+function decodeCookieValue(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch (e) {
+    return value;
+  }
+}
+
 function setSegment(segmentName) {
   setCookie('targetSegment', segmentName);
   setCookie('targetSegmentReminderSeen', 'true');
+}
+
+function getReminder(config, segmentName) {
+  const copy = segmentName === 'traveller' ? config.nonTravellersReminder : config.travellersReminder;
+  if (copy) return copy;
+  if (segmentName === 'traveller') {
+    return [
+      '<p>The site is currently showing traveller products. ',
+      '<a class="targetSegmentReminderLink" href="#" data-segment-name="nonTraveller">',
+      'Switch to non-traveller mode</a>.</p>',
+    ].join('');
+  }
+  return [
+    '<p>The site is currently showing non-traveller products. ',
+    '<a class="targetSegmentReminderLink" href="#" data-segment-name="traveller">',
+    'Switch to traveller mode</a>.</p>',
+  ].join('');
 }
 
 export default function decorate(block) {
@@ -79,13 +104,59 @@ export default function decorate(block) {
       </div>
     </div>
     <div class="targetSegmentPromptBackdrop"></div>
+    <div class="targetSegmentReminder targetSegmentReminderDesktop" data-behavior="targetSegmentReminder" data-state-path="targetSegmentReminder.visible" data-reminder-seen-cookie-name="targetSegmentReminderSeen">
+      <div class="targetSegmentReminderTriangle"></div>
+      <div class="targetSegmentReminderContent">
+        <div class="targetSegmentReminderText" data-segment-name="traveller">${getReminder(config, 'traveller')}</div>
+        <div class="targetSegmentReminderText" data-segment-name="nonTraveller">${getReminder(config, 'nonTraveller')}</div>
+        <div class="targetSegmentReminderIcon">
+          <div class="svgIcon svgIconCross targetSegmentReminderButtonIcon" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <div class="targetSegmentReminder targetSegmentReminderMobile" data-behavior="targetSegmentReminder" data-state-path="targetSegmentReminder.visible" data-reminder-seen-cookie-name="targetSegmentReminderSeen">
+      <div class="targetSegmentReminderTriangle"></div>
+      <div class="targetSegmentReminderContent">
+        <div class="targetSegmentReminderText" data-segment-name="traveller">${getReminder(config, 'traveller')}</div>
+        <div class="targetSegmentReminderText" data-segment-name="nonTraveller">${getReminder(config, 'nonTraveller')}</div>
+        <div class="targetSegmentReminderIcon">
+          <div class="svgIcon svgIconCross targetSegmentReminderButtonIcon" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
   `;
 
-  if (!getCookie('targetSegment') && !getCookie('targetSegmentReminderSeen')) {
+  const currentSegment = decodeCookieValue(getCookie('targetSegment'));
+  const reminderSeen = getCookie('targetSegmentReminderSeen');
+
+  if (!currentSegment && !reminderSeen) {
     block.classList.add('targetSegmentPromptActive');
   }
+  if (currentSegment && !reminderSeen) {
+    block.querySelectorAll(`.targetSegmentReminderText[data-segment-name="${currentSegment}"]`).forEach((item) => {
+      item.classList.add('hidden');
+    });
+    block.querySelectorAll('.targetSegmentReminder').forEach((reminder) => {
+      reminder.classList.add('targetSegmentReminderActive');
+    });
+  }
 
-  block.querySelectorAll('[data-segment-name]').forEach((element) => {
+  block.querySelectorAll('.targetSegmentPromptOptionButton[data-segment-name]').forEach((element) => {
     element.addEventListener('click', () => setSegment(element.dataset.segmentName));
+  });
+  block.querySelectorAll('.targetSegmentReminderLink[data-segment-name]').forEach((element) => {
+    element.addEventListener('click', (event) => {
+      event.preventDefault();
+      setSegment(element.dataset.segmentName);
+      window.location.reload();
+    });
+  });
+  block.querySelectorAll('.targetSegmentReminderButtonIcon').forEach((element) => {
+    element.addEventListener('click', () => {
+      setCookie('targetSegmentReminderSeen', 'true');
+      block.querySelectorAll('.targetSegmentReminder').forEach((reminder) => {
+        reminder.classList.remove('targetSegmentReminderActive');
+      });
+    });
   });
 }
