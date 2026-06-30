@@ -27,9 +27,6 @@ function createSlide(row, index) {
   const title = text(cells[3]) || text(cells[2]);
   const desktopImage = image(cells[0], title);
   const mobileImage = image(cells[1], title);
-  const eyebrow = text(cells[2]);
-  const description = text(cells[4]);
-  const ctaText = text(cells[5]);
   const ctaLink = link(cells[6]);
   const target = text(cells[7]);
 
@@ -63,38 +60,6 @@ function createSlide(row, index) {
     picture.append(img);
     slide.append(picture);
   }
-
-  const content = document.createElement('div');
-  content.className = 'hero-carousel-content';
-
-  if (eyebrow && eyebrow !== title) {
-    const label = document.createElement('p');
-    label.className = 'hero-carousel-eyebrow';
-    label.textContent = eyebrow;
-    content.append(label);
-  }
-
-  if (title) {
-    const heading = document.createElement('h1');
-    heading.textContent = title;
-    content.append(heading);
-  }
-
-  if (description) {
-    const copy = document.createElement('p');
-    copy.className = 'hero-carousel-description';
-    copy.textContent = description;
-    content.append(copy);
-  }
-
-  if (ctaText) {
-    const cta = document.createElement('span');
-    cta.className = 'hero-carousel-cta';
-    cta.textContent = ctaText;
-    content.append(cta);
-  }
-
-  slide.append(content);
   return slide;
 }
 

@@ -8,8 +8,8 @@ Author these blocks as EDS tables in DA, Google Drive, or SharePoint.
 | hero-carousel | | | | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Image | Mobile Image | Eyebrow | Title | Description | CTA Text | CTA Link | Target |
-| https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80 | https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80 | Exclusive | Shop travel essentials | Curated duty-free picks for your next trip. | Shop now | /en/category/travel | _self |
-| https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=80 | https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80 | Deals | Discover exclusive offers | Limited-time offers curated for KrisShop customers. | View deals | /en/promotions | _self |
+| https://images.krisshop.com/cms/1Ke_czY0Z0Qv0Xhw6xJopy22RDyVs9tmcRb55ao65to/1600x/bWVkaWEvZ2VuZS1jbXMvay9zL2tzc2RfbWFyMjNfa3NvXzMyMDB4MTIwMC5qcGc | https://images.krisshop.com/cms/xFqmNnDgyhBpyEi4YalRcC5FudZCnyFlZjjcth4PJ7Q/768x/bWVkaWEvZ2VuZS1jbXMvay9zL2tzc2RfbWFyMjNfa3NvXzE1MzR4ODY0LmpwZw |  | KrisShop deals |  |  | /en/category/travel | _self |
+| https://images.krisshop.com/cms/WrYe_wdr2W6E8Vncl4ZzIfp1afvlCr7ujIDLoCPfYHI/1600x/bWVkaWEvZ2VuZS1jbXMvbS9tL21tZF9tYXIyM19rc29fMzIwMHgxMjAwXzJfLmpwZw | https://images.krisshop.com/cms/AUVdNKXNAEsPLmduXV_vNwYHyUpyFkgp3plWjtCe2RQ/768x/bWVkaWEvZ2VuZS1jbXMvbS9tL21tZF9tYXIyM19rc29fMTUzNHg4NjRfMV8xXy5qcGc |  | KrisShop monthly deals |  |  | /en/promotions | _self |
 
 ## Quick Links
 
