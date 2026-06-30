@@ -32,7 +32,8 @@ Author these blocks as EDS tables in DA, Google Drive, or SharePoint.
 | Sort | newfromdate\|DESC |
 | Count | 8 |
 | GraphQL URL | https://mcstaging.krisshop.com/graphql |
-| Store Code | ks_online_sg_en |
+| Store Code | default |
+| Content Currency | SGD |
 | Product Base Path | /en/product |
 
 ## Image

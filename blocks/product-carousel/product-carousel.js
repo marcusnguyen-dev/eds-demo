@@ -16,7 +16,7 @@ function getConfig(block) {
   });
 
   const firstRow = [...(rows[0]?.children || [])].map(text);
-  if (firstRow[0]?.toLowerCase() === 'title' || firstRow[1]?.toLowerCase() === 'skus') {
+  if (firstRow.length > 3 && firstRow[0]?.toLowerCase() === 'title') {
     [
       'title',
       'skus',
@@ -126,6 +126,7 @@ export default async function decorate(block) {
       priceMax: config['price-max'],
       sort: config.sort,
       count: config.count,
+      contentCurrency: config['content-currency'],
       productBasePath: config['product-base-path'],
     });
 

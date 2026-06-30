@@ -143,6 +143,11 @@ export default async function fetchProducts(options = {}) {
   const headers = { 'content-type': 'application/json' };
   const store = options.storeCode || getMetaContent('commerce-store-code');
   if (store) headers.Store = store;
+  const contentCurrency = options.contentCurrency || getMetaContent('commerce-content-currency');
+  if (contentCurrency) headers['Content-Currency'] = contentCurrency;
+
+  // eslint-disable-next-line no-console
+  console.debug('EDS product carousel GraphQL', { endpoint, headers, query });
 
   const response = await fetch(endpoint, {
     method: 'POST',
