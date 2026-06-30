@@ -227,6 +227,54 @@ function buildHeader(config, navItems) {
   return wrapper;
 }
 
+function parseFragmentConfig(fragment) {
+  const tables = [...fragment.querySelectorAll('table')];
+  const fragmentTable = tables.find((table) => {
+    const firstCell = table.querySelector('tr:first-child td, tr:first-child th');
+    return firstCell?.textContent.trim().toLowerCase() === 'header fragments';
+  });
+
+  if (!fragmentTable) return [];
+
+  const rows = [...fragmentTable.querySelectorAll('tr')].slice(2);
+
+  return rows.map((row) => {
+    const cells = [...row.children];
+    return {
+      label: getCellText(cells[0]),
+      path: getCellValue(cells[1]),
+      position: getCellText(cells[2]).toLowerCase() || 'append',
+      target: getCellText(cells[3]).toLowerCase() || 'body',
+    };
+  }).filter((item) => item.path);
+}
+
+async function loadHeaderFragment(path, target, position = 'append') {
+  if (!path || !target) return null;
+
+  const existing = document.querySelector(`[data-header-fragment="${path}"]`);
+  if (existing) return existing;
+
+  try {
+    const fragment = await loadFragment(path);
+    if (!fragment) return null;
+
+    fragment.dataset.headerFragment = path;
+
+    if (position === 'prepend') {
+      target.prepend(fragment);
+    } else {
+      target.append(fragment);
+    }
+
+    return fragment;
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn(`Unable to load header fragment: ${path}`, e);
+    return null;
+  }
+}
+
 /**
  * Loads and decorates the header.
  * @param {Element} block The header block element
@@ -236,6 +284,12 @@ export default async function decorate(block) {
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
   const fragment = await loadFragment(navPath);
   const { config, navItems } = parseNav(fragment);
+  const headerFragments = parseFragmentConfig(fragment);
+  const header = buildHeader(config, navItems);
+  block.replaceChildren(header);
 
-  block.replaceChildren(buildHeader(config, navItems));
+  await Promise.all(headerFragments.map((item) => {
+    const target = item.target === 'header' ? header : document.body;
+    return loadHeaderFragment(item.path, target, item.position);
+  }));
 }
