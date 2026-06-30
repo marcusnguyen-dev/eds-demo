@@ -156,15 +156,6 @@ function createLink(item, className) {
   return link;
 }
 
-function createIconLink(href, className, label, content = '') {
-  const link = createElement('a', `ks-icon-link ${className}`);
-  link.href = normalizeHref(href);
-  link.setAttribute('aria-label', label);
-  link.title = label;
-  if (content) link.innerHTML = content;
-  return link;
-}
-
 function createFlyoutToggle(label, className, behavior) {
   const button = createElement('button', className);
   button.type = 'button';
@@ -181,6 +172,23 @@ function buildCurrency(config) {
   const wrapper = createElement('div', 'header-element currency-wrapper mr12');
   wrapper.dataset.activeStatePath = 'currencySelect.visible';
   const selectedCurrency = decodeURIComponent(getCookie('currency') || config.currency || 'SGD').toUpperCase();
+  const currencyItems = ['SGD', 'AUD'].map((currency) => {
+    const currencyLabel = currency === 'SGD' ? 'Singapore Dollar' : 'Australian Dollar';
+    const selected = currency === selectedCurrency;
+    return `
+      <label class="currency-item ${selected ? 'selected' : ''}" data-currency-code="${currency}">
+        <div class="currency-item-content">
+          <div class="item-currecy-text">${currencyLabel}</div>
+          <div class="item-currecy-code">${currency}</div>
+          <div class="form-radio-action">
+            <input type="radio" name="currencyCode" value="${currency}" ${selected ? 'checked' : ''}>
+            <span class="formListRowRadioRepresenter"></span>
+          </div>
+        </div>
+      </label>
+    `;
+  }).join('');
+
   wrapper.innerHTML = `
     <div class="currency-dropdown">
       <div class="currency-dropdown-content">
@@ -192,18 +200,7 @@ function buildCurrency(config) {
         <div class="flyout currency-list-content">
           <div class="header-currency-list">
             <div class="currency-list-items">
-              ${['SGD', 'AUD'].map((currency) => `
-                <label class="currency-item ${currency === selectedCurrency ? 'selected' : ''}" data-currency-code="${currency}">
-                  <div class="currency-item-content">
-                    <div class="item-currecy-text">${currency === 'SGD' ? 'Singapore Dollar' : 'Australian Dollar'}</div>
-                    <div class="item-currecy-code">${currency}</div>
-                    <div class="form-radio-action">
-                      <input type="radio" name="currencyCode" value="${currency}" ${currency === selectedCurrency ? 'checked' : ''}>
-                      <span class="formListRowRadioRepresenter"></span>
-                    </div>
-                  </div>
-                </label>
-              `).join('')}
+              ${currencyItems}
             </div>
           </div>
         </div>
@@ -220,30 +217,32 @@ function buildSegment(config) {
   wrapper.dataset.activeStatePath = 'targetSegmentSelect.visible';
   const selected = createFlyoutToggle(selectedLabel, 'header-element travel-segment-selected default', 'travelSelector');
   const flyout = createElement('div', 'flyout travel-segment-content');
+  const segmentItems = [
+    ['nonTraveller', config.nonTraveller || config.segment, config.nonTravellerDesc],
+    ['traveller', config.traveller, config.travellerDesc],
+  ].map(([name, label, desc], index) => `
+    <label class="segment-item ${index === 0 ? 'first' : ''} ${name === selectedSegment ? 'selected' : ''}" data-segment-name="${name}">
+      <div class="segment-item-content">
+        <div class="segment-item-content-left">
+          <span class="svgIcon svgIconCheck svg-arrow-icon" aria-hidden="true"></span>
+          <div class="item-label">${label}</div>
+          <div class="item-desc">${desc}</div>
+        </div>
+        <div class="segment-item-content-right">
+          <div class="form-radio-action">
+            <input type="radio" name="targetSegment" value="${name}" ${name === selectedSegment ? 'checked' : ''}>
+            <span class="formListRowRadioRepresenter"></span>
+          </div>
+        </div>
+      </div>
+    </label>
+  `).join('');
+
   flyout.dataset.behavior = 'flyout';
   flyout.innerHTML = `
     <div class="target-segment-list">
       <div class="target-segment-items">
-        ${[
-          ['nonTraveller', config.nonTraveller || config.segment, config.nonTravellerDesc],
-          ['traveller', config.traveller, config.travellerDesc],
-        ].map(([name, label, desc], index) => `
-          <label class="segment-item ${index === 0 ? 'first' : ''} ${name === selectedSegment ? 'selected' : ''}" data-segment-name="${name}">
-            <div class="segment-item-content">
-              <div class="segment-item-content-left">
-                <span class="svgIcon svgIconCheck svg-arrow-icon" aria-hidden="true"></span>
-                <div class="item-label">${label}</div>
-                <div class="item-desc">${desc}</div>
-              </div>
-              <div class="segment-item-content-right">
-                <div class="form-radio-action">
-                  <input type="radio" name="targetSegment" value="${name}" ${name === selectedSegment ? 'checked' : ''}>
-                  <span class="formListRowRadioRepresenter"></span>
-                </div>
-              </div>
-            </div>
-          </label>
-        `).join('')}
+        ${segmentItems}
       </div>
     </div>
   `;
