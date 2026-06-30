@@ -1,6 +1,8 @@
+/* stylelint-disable selector-class-pattern */
+
 header .nav-wrapper {
   position: relative;
-  z-index: 10;
+  z-index: 100;
   width: 100%;
   background: #fff;
   color: #282828;
@@ -12,95 +14,122 @@ header .ks-header a {
   text-decoration: none;
 }
 
-header nav.ks-header-main {
-  box-sizing: border-box;
+header .header-content .container {
   max-width: 1320px;
-  min-height: 96px;
   margin: 0 auto;
-  padding: 20px 32px 18px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas:
-    "brand . segment"
-    "sections sections tools";
-  gap: 18px 28px;
-  align-items: center;
+  padding: 0 24px;
 }
 
-header .nav-brand {
-  grid-area: brand;
+header .header-top {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header .logo-wrapper {
+  flex: 0 0 auto;
 }
 
 header .ks-logo {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
-  color: #2e2e2e;
+  min-height: 40px;
+  color: #282828;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 28px;
+  font-size: 31px;
   font-weight: 400;
-  letter-spacing: 0;
   text-transform: uppercase;
+}
+
+header .ks-logo img {
+  display: block;
+  max-width: 205px;
+  max-height: 40px;
 }
 
 header .ks-logo::after {
   content: "";
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  margin-left: 8px;
+  width: 27px;
+  height: 27px;
+  margin-left: 14px;
   border-top: 4px solid currentcolor;
   border-right: 4px solid currentcolor;
   transform: rotate(45deg) skew(8deg, 8deg);
-  opacity: 0.7;
+  opacity: 0.65;
 }
 
-header .ks-segment-select {
-  grid-area: segment;
-  min-height: 32px;
-  border: 0;
-  padding: 0 18px 0 26px;
-  background: transparent;
-  color: #555;
-  cursor: pointer;
-  font: inherit;
-  font-size: 13px;
-  line-height: 1;
+header .header-top-right-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+header .header-element,
+header .currency-dropdown-content {
   position: relative;
 }
 
-header .ks-segment-select::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 15px;
-  height: 11px;
-  border: 1px solid currentcolor;
-  border-radius: 2px;
-  opacity: 0.7;
+header .currency-selected,
+header .travel-segment-selected {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  padding: 0 8px;
+  background: transparent;
+  color: #282828;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
 }
 
-header .ks-segment-select::after {
-  content: "";
-  position: absolute;
-  right: 2px;
-  top: 11px;
-  width: 7px;
-  height: 7px;
+header .ks-selector-icon {
+  width: 17px;
+  height: 13px;
+  display: inline-block;
+  border: 1px solid currentcolor;
+  border-radius: 2px;
+  opacity: 0.85;
+}
+
+header .currency-icon {
+  border-radius: 50%;
+}
+
+header .ks-chevron {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
   border-right: 1px solid currentcolor;
   border-bottom: 1px solid currentcolor;
   transform: rotate(45deg);
+  transition: transform 0.2s ease;
 }
 
-header .nav-sections {
-  grid-area: sections;
+header .active > * > * > .currency-selected .ks-chevron,
+header .travel-segment-wrapper.active .ks-chevron {
+  transform: rotate(225deg);
+}
+
+header .header-bottom-wrapper {
+  border-top: 0;
+}
+
+header .header-bottom {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 }
 
 header .nav-sections ul {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 34px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -108,12 +137,11 @@ header .nav-sections ul {
 
 header .nav-sections a {
   display: inline-flex;
-  min-height: 32px;
+  min-height: 44px;
   align-items: center;
-  color: #555;
+  color: #282828;
   font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -122,23 +150,24 @@ header .nav-sections a:focus {
   color: #000;
 }
 
-header .nav-tools {
-  grid-area: tools;
+header .nav-tools,
+header .header-bottom-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 18px;
 }
 
-header .ks-search-form {
+header .search-form {
   width: 220px;
-  min-height: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   background: #f6f6f6;
+  position: relative;
 }
 
-header .ks-search-input {
+header .header-search-input {
   min-width: 0;
   flex: 1 1 auto;
   border: 0;
@@ -151,63 +180,66 @@ header .ks-search-input {
   text-transform: uppercase;
 }
 
-header .ks-search-input::placeholder {
+header .header-search-input::placeholder {
   color: #a8a8a8;
   opacity: 1;
 }
 
-header .ks-search-button,
-header .ks-icon-link {
-  width: 24px;
-  height: 24px;
-  flex: 0 0 24px;
+header .header-search-submit-button,
+header .mini-cart-icon,
+header .customer-account-button {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   padding: 0;
   background: transparent;
-  color: #555;
+  color: #282828;
   cursor: pointer;
   position: relative;
 }
 
-header .ks-search-button::before {
+header .header-search-submit-button::before {
   content: "";
-  position: absolute;
-  left: 4px;
-  top: 3px;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border: 2px solid currentcolor;
   border-radius: 50%;
+  position: absolute;
+  left: 5px;
+  top: 4px;
 }
 
-header .ks-search-button::after {
+header .header-search-submit-button::after {
   content: "";
-  position: absolute;
-  left: 16px;
-  top: 16px;
   width: 8px;
   height: 2px;
   background: currentcolor;
+  position: absolute;
+  left: 18px;
+  top: 18px;
   transform: rotate(45deg);
   transform-origin: left center;
 }
 
-header .ks-cart-link::before {
+header .header-mini-cart-icon::before {
   content: "";
   position: absolute;
-  left: 5px;
-  top: 6px;
+  left: 7px;
+  top: 8px;
   width: 13px;
   height: 13px;
   border: 2px solid currentcolor;
   border-top: 0;
 }
 
-header .ks-cart-link::after {
+header .header-mini-cart-icon::after {
   content: "";
   position: absolute;
-  left: 8px;
-  top: 2px;
+  left: 10px;
+  top: 4px;
   width: 7px;
   height: 7px;
   border: 2px solid currentcolor;
@@ -215,27 +247,197 @@ header .ks-cart-link::after {
   border-radius: 8px 8px 0 0;
 }
 
-header .ks-account-link::before {
+header .header-account-icon::before {
   content: "";
   position: absolute;
-  left: 8px;
-  top: 3px;
+  left: 10px;
+  top: 4px;
   width: 8px;
   height: 8px;
   border: 2px solid currentcolor;
   border-radius: 50%;
 }
 
-header .ks-account-link::after {
+header .header-account-icon::after {
   content: "";
   position: absolute;
-  left: 4px;
-  bottom: 2px;
-  width: 16px;
-  height: 9px;
+  left: 5px;
+  bottom: 3px;
+  width: 18px;
+  height: 10px;
   border: 2px solid currentcolor;
   border-bottom: 0;
-  border-radius: 16px 16px 0 0;
+  border-radius: 18px 18px 0 0;
+}
+
+header .flyout {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 300;
+  min-width: 320px;
+  background: #fff;
+  border-bottom: 4px solid #000;
+  box-shadow: 0 2px 20px rgb(0 0 0 / 22%);
+  color: #282828;
+}
+
+header .currency-wrapper:hover .currency-list-content,
+header .currency-wrapper.active .currency-list-content,
+header .travel-segment-wrapper:hover .travel-segment-content,
+header .travel-segment-wrapper.active .travel-segment-content,
+header .mini-cart:hover .cart-content,
+header .mini-cart .cart.active .cart-content,
+header .customer-account:hover .customer-account-content,
+header .customer-account.active .customer-account-content {
+  display: block;
+}
+
+header .currency-list-content {
+  right: 0;
+  width: 345px;
+}
+
+header .currency-item,
+header .segment-item {
+  display: block;
+  cursor: pointer;
+  border-bottom: 1px solid #ececec;
+}
+
+header .currency-item-content,
+header .segment-item-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+}
+
+header .currency-item.selected,
+header .segment-item.selected {
+  background: #f6f6f6;
+}
+
+header .item-label,
+header .item-currecy-text {
+  font-weight: 600;
+}
+
+header .item-desc,
+header .item-currecy-code {
+  margin-top: 4px;
+  color: #787878;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+header .formListRowRadioRepresenter {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  border: 2px solid #787878;
+  border-radius: 50%;
+}
+
+header input:checked + .formListRowRadioRepresenter {
+  border-color: #000;
+  box-shadow: inset 0 0 0 4px #fff;
+  background: #000;
+}
+
+header .form-radio-action input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+header .travel-segment-content {
+  width: 352px;
+}
+
+header .mini-cart,
+header .customer-account {
+  position: relative;
+}
+
+header .cart-content {
+  width: 352px;
+  right: -160px;
+}
+
+header .cart-empty-title {
+  background: #f3f3f3;
+  color: #787878;
+  padding: 15px;
+  text-align: center;
+}
+
+header .cart-empty-action-wrapper {
+  padding: 24px;
+  text-align: center;
+}
+
+header .cart-empty-headline {
+  margin-bottom: 18px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+header .customer-account-content {
+  width: 300px;
+  right: 0;
+}
+
+header .customer-account-action-wrapper {
+  padding: 22px 24px;
+  text-align: center;
+}
+
+header .buttonStylePrimary {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  background: #000;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+header .header-divider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  color: #b2b2b2;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+header .header-divider-line {
+  height: 1px;
+  flex: 1;
+  background: #ececec;
+}
+
+header .customer-register-headline {
+  font-weight: 600;
+}
+
+header .customer-register-desc {
+  margin-top: 8px;
+  color: #787878;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+header .customer-register-link {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: underline;
 }
 
 header .nav-hamburger {
@@ -243,19 +445,15 @@ header .nav-hamburger {
 }
 
 @media (width < 900px) {
-  header nav.ks-header-main {
+  header .header-content .container {
+    padding: 0 18px;
+  }
+
+  header .header-top {
     min-height: 64px;
-    padding: 14px 18px;
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas:
-      "hamburger brand tools"
-      "sections sections sections"
-      "segment segment segment";
-    gap: 14px;
   }
 
   header .nav-hamburger {
-    grid-area: hamburger;
     display: flex;
     align-items: center;
   }
@@ -296,72 +494,47 @@ header .nav-hamburger {
     top: 7px;
   }
 
-  header nav[aria-expanded="true"] .nav-hamburger-icon {
-    background: transparent;
-  }
-
-  header nav[aria-expanded="true"] .nav-hamburger-icon::before {
-    top: 0;
-    transform: rotate(45deg);
-  }
-
-  header nav[aria-expanded="true"] .nav-hamburger-icon::after {
-    top: 0;
-    transform: rotate(-45deg);
+  header .header-top-right {
+    display: none;
   }
 
   header .ks-logo {
-    font-size: 22px;
+    font-size: 24px;
   }
 
-  header .ks-logo::after {
-    width: 18px;
-    height: 18px;
-  }
-
-  header .nav-sections,
-  header .ks-segment-select {
+  header .header-bottom-wrapper {
     display: none;
   }
 
-  header .ks-segment-select {
-    width: 100%;
-    padding: 14px 20px 14px 28px;
-    text-align: left;
-    border-top: 1px solid #ebebeb;
-  }
-
-  header nav[aria-expanded="true"] .nav-sections,
-  header nav[aria-expanded="true"] .ks-segment-select {
+  header .header[aria-expanded="true"] .header-bottom-wrapper {
     display: block;
   }
 
+  header .header-bottom {
+    display: block;
+    min-height: 0;
+  }
+
   header .nav-sections ul {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-    border-top: 1px solid #ebebeb;
+    display: block;
+    border-top: 1px solid #ececec;
   }
 
   header .nav-sections li {
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #ececec;
   }
 
   header .nav-sections a {
+    width: 100%;
     min-height: 46px;
-    font-size: 14px;
   }
 
   header .nav-tools {
-    gap: 12px;
+    justify-content: flex-start;
+    padding: 14px 0;
   }
 
-  header .ks-search-form {
-    width: auto;
-    background: transparent;
-  }
-
-  header .ks-search-input {
-    display: none;
+  header .search-form {
+    width: 100%;
   }
 }

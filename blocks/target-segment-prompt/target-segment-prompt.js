@@ -60,21 +60,21 @@ export default function decorate(block) {
       <div class="targetSegmentPromptOptions">
         <div class="targetSegmentPromptOption">
           <div class="targetSegmentPromptOptionHeadline">${config.travellersTitle}</div>
-          <a class="button buttonSizeRegular buttonStyleTertiary targetSegmentPromptOptionButton" href="${config.travellerLink}" data-segment-name="traveller">
+          <button class="button buttonSizeRegular buttonStyleTertiary targetSegmentPromptOptionButton" type="button" data-segment-name="traveller">
             <span class="buttonContent buttonContentTargetSegment">
-              <span class="buttonContentIcon buttonContentIconPlane" aria-hidden="true"></span>
+              <div class="svgIcon svgIconPlane buttonContentIcon" aria-hidden="true"></div>
               ${config.travellersButtonLabel}
             </span>
-          </a>
+          </button>
         </div>
         <div class="targetSegmentPromptOption">
           <div class="targetSegmentPromptOptionHeadline">${config.nonTravellersTitle}</div>
-          <a class="button buttonSizeRegular buttonStyleTertiary targetSegmentPromptOptionButton" href="${config.nonTravellerLink}" data-segment-name="nonTraveller">
+          <button class="button buttonSizeRegular buttonStyleTertiary targetSegmentPromptOptionButton" type="button" data-segment-name="nonTraveller">
             <span class="buttonContent buttonContentTargetSegment">
-              <span class="buttonContentIcon buttonContentIconHome" aria-hidden="true"></span>
+              <div class="svgIcon svgIconHome buttonContentIcon" aria-hidden="true"></div>
               ${config.nonTravellersButtonLabel}
             </span>
-          </a>
+          </button>
         </div>
       </div>
     </div>

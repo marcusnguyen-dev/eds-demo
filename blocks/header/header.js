@@ -9,6 +9,11 @@ const DEFAULT_CONFIG = {
   logoImageMobile: '',
   home: '/',
   segment: 'Non-Travellers',
+  traveller: 'Travellers',
+  travellerDesc: 'Shop tax and duty-free with a Singapore Airlines/Scoot flight booking.',
+  nonTraveller: 'Non-Travellers',
+  nonTravellerDesc: 'Shop products available for home delivery.',
+  currency: 'SGD',
   search: '/en/search',
   cart: '/en/cart',
   account: '/en/account',
@@ -30,6 +35,14 @@ const KEY_ALIASES = {
   'logo image mobile': 'logoImageMobile',
   home: 'home',
   segment: 'segment',
+  traveller: 'traveller',
+  'traveller desc': 'travellerDesc',
+  'non traveller': 'nonTraveller',
+  'non-traveller': 'nonTraveller',
+  'non traveller desc': 'nonTravellerDesc',
+  'non-traveller desc': 'nonTravellerDesc',
+  currency: 'currency',
+  'base currency': 'currency',
   search: 'search',
   cart: 'cart',
   bag: 'cart',
@@ -123,34 +136,185 @@ function createElement(tag, className, text) {
   return element;
 }
 
+function getCookie(name) {
+  return document.cookie
+    .split(';')
+    .map((item) => item.trim())
+    .find((item) => item.startsWith(`${name}=`))
+    ?.split('=')
+    .slice(1)
+    .join('=') || '';
+}
+
+function setCookie(name, value) {
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; SameSite=Lax`;
+}
+
 function createLink(item, className) {
   const link = createElement('a', className, item.text);
   link.href = normalizeHref(item.href);
   return link;
 }
 
-function createIconLink(href, className, label) {
+function createIconLink(href, className, label, content = '') {
   const link = createElement('a', `ks-icon-link ${className}`);
   link.href = normalizeHref(href);
   link.setAttribute('aria-label', label);
   link.title = label;
+  if (content) link.innerHTML = content;
   return link;
 }
 
+function createFlyoutToggle(label, className, behavior) {
+  const button = createElement('button', className);
+  button.type = 'button';
+  button.dataset.behavior = behavior;
+  button.innerHTML = `
+    <span class="ks-selector-icon" aria-hidden="true"></span>
+    <span class="segment-name">${label}</span>
+    <span class="ks-chevron" aria-hidden="true"></span>
+  `;
+  return button;
+}
+
+function buildCurrency(config) {
+  const wrapper = createElement('div', 'header-element currency-wrapper mr12');
+  wrapper.dataset.activeStatePath = 'currencySelect.visible';
+  const selectedCurrency = decodeURIComponent(getCookie('currency') || config.currency || 'SGD').toUpperCase();
+  wrapper.innerHTML = `
+    <div class="currency-dropdown">
+      <div class="currency-dropdown-content">
+        <button class="currency-selected default" type="button" data-behavior="currencySelector">
+          <span class="ks-selector-icon currency-icon" aria-hidden="true"></span>
+          <span class="currency-name">${selectedCurrency}</span>
+          <span class="ks-chevron" aria-hidden="true"></span>
+        </button>
+        <div class="flyout currency-list-content">
+          <div class="header-currency-list">
+            <div class="currency-list-items">
+              ${['SGD', 'AUD'].map((currency) => `
+                <label class="currency-item ${currency === selectedCurrency ? 'selected' : ''}" data-currency-code="${currency}">
+                  <div class="currency-item-content">
+                    <div class="item-currecy-text">${currency === 'SGD' ? 'Singapore Dollar' : 'Australian Dollar'}</div>
+                    <div class="item-currecy-code">${currency}</div>
+                    <div class="form-radio-action">
+                      <input type="radio" name="currencyCode" value="${currency}" ${currency === selectedCurrency ? 'checked' : ''}>
+                      <span class="formListRowRadioRepresenter"></span>
+                    </div>
+                  </div>
+                </label>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  return wrapper;
+}
+
+function buildSegment(config) {
+  const selectedSegment = decodeURIComponent(getCookie('targetSegment') || 'nonTraveller');
+  const selectedLabel = selectedSegment === 'traveller' ? config.traveller : config.nonTraveller || config.segment;
+  const wrapper = createElement('div', 'header-element travel-segment-wrapper');
+  wrapper.dataset.activeStatePath = 'targetSegmentSelect.visible';
+  const selected = createFlyoutToggle(selectedLabel, 'header-element travel-segment-selected default', 'travelSelector');
+  const flyout = createElement('div', 'flyout travel-segment-content');
+  flyout.dataset.behavior = 'flyout';
+  flyout.innerHTML = `
+    <div class="target-segment-list">
+      <div class="target-segment-items">
+        ${[
+          ['nonTraveller', config.nonTraveller || config.segment, config.nonTravellerDesc],
+          ['traveller', config.traveller, config.travellerDesc],
+        ].map(([name, label, desc], index) => `
+          <label class="segment-item ${index === 0 ? 'first' : ''} ${name === selectedSegment ? 'selected' : ''}" data-segment-name="${name}">
+            <div class="segment-item-content">
+              <div class="segment-item-content-left">
+                <span class="svgIcon svgIconCheck svg-arrow-icon" aria-hidden="true"></span>
+                <div class="item-label">${label}</div>
+                <div class="item-desc">${desc}</div>
+              </div>
+              <div class="segment-item-content-right">
+                <div class="form-radio-action">
+                  <input type="radio" name="targetSegment" value="${name}" ${name === selectedSegment ? 'checked' : ''}>
+                  <span class="formListRowRadioRepresenter"></span>
+                </div>
+              </div>
+            </div>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  wrapper.append(selected, flyout);
+  return wrapper;
+}
+
+function buildMiniCart(config) {
+  const wrapper = createElement('div', 'mini-cart');
+  wrapper.innerHTML = `
+    <div class="cart">
+      <a href="${normalizeHref(config.cart)}" class="mini-cart-icon" aria-label="Shopping bag" title="Shopping bag">
+        <span class="svgIcon svg-icon-shopping header-mini-cart-icon default" aria-hidden="true"></span>
+        <span class="notificationDot default headerMiniCartNotificationDot hidden"><span class="notificationDotCount">0</span></span>
+      </a>
+      <div class="flyout cart-content">
+        <div class="mini-cart-items">
+          <div class="cart-empty">
+            <div class="cart-empty-title">Your shopping bag is empty</div>
+            <div class="cart-empty-action-wrapper">
+              <div class="cart-empty-headline">Start shopping</div>
+              <a class="button buttonSizeSmall buttonStylePrimary" href="${normalizeHref(config.home)}"><span class="button-content">Continue shopping</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  return wrapper;
+}
+
+function buildAccount(config) {
+  const wrapper = createElement('div', 'customer-account');
+  wrapper.dataset.activeStatePath = 'customerAccount.visible';
+  wrapper.innerHTML = `
+    <button class="mini-cart-icon customer-account-button" type="button" aria-label="Account" title="Account">
+      <span class="svgIcon svg-icon-account header-account-icon default" aria-hidden="true"></span>
+    </button>
+    <div class="flyout customer-account-content">
+      <div class="customer-account-action-wrapper">
+        <a class="button buttonSizeSmall buttonStylePrimary header-login-button" href="${normalizeHref(config.account)}"><span class="button-content">Sign in</span></a>
+        <div class="header-divider-wrapper"><span class="header-divider-line"></span><span class="header-divider-text">or</span><span class="header-divider-line"></span></div>
+        <div class="customer-register-link-wrapper">
+          <div class="customer-register-headline">New to KrisShop?</div>
+          <div class="customer-register-desc">Join KrisShopper for more deals and rewards.</div>
+          <a class="customer-register-link" href="${normalizeHref(config.account)}">Register now</a>
+        </div>
+      </div>
+    </div>
+  `;
+  return wrapper;
+}
+
 function buildMainHeader(config, navItems) {
-  const nav = createElement('nav', 'ks-header-main');
-  nav.id = 'nav';
-  nav.setAttribute('aria-expanded', 'false');
+  const header = createElement('div', 'header default');
+  header.dataset.behavior = 'header';
+
+  const content = createElement('div', 'header-content header-content-details');
+  content.dataset.basecurrency = config.currency;
+  const container = createElement('div', 'container');
 
   const hamburger = createElement('div', 'nav-hamburger');
   const hamburgerButton = createElement('button');
   hamburgerButton.type = 'button';
-  hamburgerButton.setAttribute('aria-controls', 'nav');
+  hamburgerButton.className = 'menuModalOpenButton';
   hamburgerButton.setAttribute('aria-label', 'Open navigation');
   hamburgerButton.append(createElement('span', 'nav-hamburger-icon'));
   hamburger.append(hamburgerButton);
 
-  const brand = createElement('div', 'nav-brand');
+  const headerTop = createElement('div', 'header-top');
+  const brand = createElement('div', 'logo-wrapper krisshop-normal-user');
   const logoLink = createLink({ text: config.logoImageDesktop ? '' : config.logo, href: config.home }, 'ks-logo');
   if (config.logoImageDesktop) {
     const picture = createElement('picture');
@@ -169,10 +333,15 @@ function buildMainHeader(config, navItems) {
   }
   brand.append(logoLink);
 
-  const segment = createElement('button', 'ks-segment-select');
-  segment.type = 'button';
-  segment.textContent = config.segment;
+  const headerTopRight = createElement('div', 'header-top-right for-tablet');
+  const headerTopRightContent = createElement('div', 'header-top-right-content');
+  headerTopRightContent.append(buildCurrency(config), buildSegment(config));
+  headerTopRight.append(headerTopRightContent);
 
+  headerTop.append(hamburger, brand, headerTopRight);
+
+  const headerBottom = createElement('div', 'header-bottom-wrapper');
+  const headerBottomInner = createElement('div', 'header-bottom');
   const navSections = createElement('div', 'nav-sections');
   const list = createElement('ul');
   navItems.forEach((item) => {
@@ -182,30 +351,36 @@ function buildMainHeader(config, navItems) {
   });
   navSections.append(list);
 
-  const navTools = createElement('div', 'nav-tools');
-  const searchForm = createElement('form', 'ks-search-form');
+  const navTools = createElement('div', 'header-bottom-right nav-tools');
+  const searchForm = createElement('form', 'search-form ks-search-form');
   searchForm.action = normalizeHref(config.search);
   searchForm.role = 'search';
 
-  const searchInput = createElement('input', 'ks-search-input');
+  const searchInput = createElement('input', 'header-search-input ks-search-input');
   searchInput.type = 'search';
-  searchInput.name = 'q';
+  searchInput.name = 'keyword';
   searchInput.placeholder = 'SEARCH';
   searchInput.setAttribute('aria-label', 'Search');
 
-  const searchButton = createElement('button', 'ks-search-button');
+  const searchButton = createElement('button', 'header-search-submit-button ks-search-button');
   searchButton.type = 'submit';
   searchButton.setAttribute('aria-label', 'Search');
   searchForm.append(searchInput, searchButton);
 
   navTools.append(
     searchForm,
-    createIconLink(config.cart, 'ks-cart-link', 'Shopping bag'),
-    createIconLink(config.account, 'ks-account-link', 'Account'),
+    buildMiniCart(config),
+    buildAccount(config),
   );
 
-  nav.append(hamburger, brand, segment, navSections, navTools);
-  return nav;
+  headerBottomInner.append(navSections, navTools);
+  headerBottom.append(headerBottomInner);
+  container.append(headerTop, headerBottom);
+  content.append(container);
+  header.append(content);
+  header.id = 'nav';
+  header.setAttribute('aria-expanded', 'false');
+  return header;
 }
 
 function setMenuState(nav, expanded) {
@@ -218,11 +393,40 @@ function setMenuState(nav, expanded) {
 function buildHeader(config, navItems) {
   const wrapper = createElement('div', 'nav-wrapper ks-header');
   const nav = buildMainHeader(config, navItems);
-  nav.querySelector('.nav-hamburger button').addEventListener('click', () => {
+  nav.querySelector('.nav-hamburger button')?.addEventListener('click', () => {
     setMenuState(nav, nav.getAttribute('aria-expanded') !== 'true');
   });
 
   isDesktop.addEventListener('change', () => setMenuState(nav, false));
+
+  nav.querySelectorAll('.currency-selected, .travel-segment-selected, .customer-account-button').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      const parent = button.closest('.currency-wrapper, .travel-segment-wrapper, .customer-account');
+      parent?.classList.toggle('active');
+    });
+  });
+
+  nav.querySelectorAll('.segment-item').forEach((item) => {
+    item.addEventListener('click', () => {
+      setCookie('targetSegment', item.dataset.segmentName);
+      setCookie('targetSegmentReminderSeen', 'true');
+      window.location.reload();
+    });
+  });
+
+  nav.querySelectorAll('.currency-item').forEach((item) => {
+    item.addEventListener('click', () => {
+      setCookie('currency', item.dataset.currencyCode);
+      window.location.reload();
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (nav.contains(event.target)) return;
+    nav.querySelectorAll('.active').forEach((element) => element.classList.remove('active'));
+  });
+
   wrapper.append(nav);
   return wrapper;
 }
