@@ -8,7 +8,8 @@ Author these blocks as EDS tables in DA, Google Drive, or SharePoint.
 | hero-carousel | | | | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Image | Mobile Image | Eyebrow | Title | Description | CTA Text | CTA Link | Target |
-| /media/home/hero.jpg | /media/home/hero-mobile.jpg | Exclusive | Shop travel essentials | Curated duty-free picks for your next trip. | Shop now | /en/category/travel | _self |
+| https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80 | https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80 | Exclusive | Shop travel essentials | Curated duty-free picks for your next trip. | Shop now | /en/category/travel | _self |
+| https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=80 | https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80 | Deals | Discover exclusive offers | Limited-time offers curated for KrisShop customers. | View deals | /en/promotions | _self |
 
 ## Quick Links
 
@@ -30,7 +31,7 @@ Author these blocks as EDS tables in DA, Google Drive, or SharePoint.
 | Price Max | |
 | Sort | newfromdate\|DESC |
 | Count | 8 |
-| GraphQL URL | https://example.com/graphql |
+| GraphQL URL | https://mcstaging.krisshop.com/graphql |
 | Store Code | ks_online_sg_en |
 | Product Base Path | /en/product |
 

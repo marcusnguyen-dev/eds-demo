@@ -15,6 +15,26 @@ function getConfig(block) {
     config[key] = text(cells[1]);
   });
 
+  const firstRow = [...(rows[0]?.children || [])].map(text);
+  if (firstRow[0]?.toLowerCase() === 'title' || firstRow[1]?.toLowerCase() === 'skus') {
+    [
+      'title',
+      'skus',
+      'category-ids',
+      'brand-ids',
+      'topic-ids',
+      'price-min',
+      'price-max',
+      'sort',
+      'count',
+      'graphql-url',
+      'store-code',
+      'product-base-path',
+    ].forEach((key, index) => {
+      if (firstRow[index]) config[key] = firstRow[index];
+    });
+  }
+
   return config;
 }
 
@@ -118,6 +138,6 @@ export default async function decorate(block) {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn('Product carousel failed', error);
-    showMessage(track, 'Product data is not available.');
+    showMessage(track, `Product data is not available. ${error.message || ''}`.trim());
   }
 }

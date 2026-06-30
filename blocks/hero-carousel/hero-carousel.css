@@ -23,6 +23,10 @@
   text-decoration: none;
 }
 
+.hero-carousel-slide[hidden] {
+  display: none;
+}
+
 .hero-carousel-slide:hover {
   color: inherit;
   text-decoration: none;
@@ -116,6 +120,34 @@
   z-index: 2;
 }
 
+.hero-carousel-arrow {
+  align-items: center;
+  background: rgb(255 255 255 / 82%);
+  border: 0;
+  border-radius: 999px;
+  color: #111;
+  display: flex;
+  font-size: 24px;
+  font-weight: 700;
+  height: 44px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  z-index: 2;
+}
+
+.hero-carousel-arrow-prev {
+  left: 20px;
+}
+
+.hero-carousel-arrow-next {
+  right: 20px;
+}
+
 .hero-carousel-dot {
   background: rgb(255 255 255 / 55%);
   border: 0;
@@ -140,5 +172,9 @@
   .hero-carousel-content {
     justify-content: flex-end;
     padding: 40px 20px 64px;
+  }
+
+  .hero-carousel-arrow {
+    display: none;
   }
 }

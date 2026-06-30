@@ -99,14 +99,15 @@ function createSlide(row, index) {
 function setActive(block, index) {
   const slides = [...block.querySelectorAll('.hero-carousel-slide')];
   const dots = [...block.querySelectorAll('.hero-carousel-dot')];
+  const nextIndex = (index + slides.length) % slides.length;
   slides.forEach((slide, slideIndex) => {
-    slide.hidden = slideIndex !== index;
-    slide.setAttribute('aria-hidden', slideIndex === index ? 'false' : 'true');
+    slide.hidden = slideIndex !== nextIndex;
+    slide.setAttribute('aria-hidden', slideIndex === nextIndex ? 'false' : 'true');
   });
   dots.forEach((dot, dotIndex) => {
-    dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
+    dot.setAttribute('aria-current', dotIndex === nextIndex ? 'true' : 'false');
   });
-  block.dataset.activeSlide = String(index);
+  block.dataset.activeSlide = String(nextIndex);
 }
 
 export default function decorate(block) {
@@ -124,6 +125,14 @@ export default function decorate(block) {
     const controls = document.createElement('div');
     controls.className = 'hero-carousel-controls';
 
+    const previous = document.createElement('button');
+    previous.className = 'hero-carousel-arrow hero-carousel-arrow-prev';
+    previous.type = 'button';
+    previous.setAttribute('aria-label', 'Previous slide');
+    previous.textContent = '<';
+    previous.addEventListener('click', () => setActive(block, Number(block.dataset.activeSlide) - 1));
+    block.append(previous);
+
     slides.forEach((slide, index) => {
       const dot = document.createElement('button');
       dot.className = 'hero-carousel-dot';
@@ -134,6 +143,14 @@ export default function decorate(block) {
     });
 
     block.append(controls);
+
+    const next = document.createElement('button');
+    next.className = 'hero-carousel-arrow hero-carousel-arrow-next';
+    next.type = 'button';
+    next.setAttribute('aria-label', 'Next slide');
+    next.textContent = '>';
+    next.addEventListener('click', () => setActive(block, Number(block.dataset.activeSlide) + 1));
+    block.append(next);
   }
 
   setActive(block, 0);
