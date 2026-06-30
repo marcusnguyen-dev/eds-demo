@@ -1,0 +1,14 @@
+/* stylelint-disable selector-class-pattern */
+
+.html-source.block {
+  margin: 0;
+}
+
+.html-source .maintenanceMessageBlock,
+.html-source > div {
+  box-sizing: border-box;
+}
+
+.html-source p {
+  margin: 0;
+}

@@ -5,16 +5,9 @@ const isDesktop = window.matchMedia('(min-width: 900px)');
 
 const DEFAULT_CONFIG = {
   logo: 'KrisShop',
+  logoImageDesktop: '',
+  logoImageMobile: '',
   home: '/',
-  notice: 'Delivery Notice: Overseas Delivery Charge has been updated for selected countries.',
-  promo: 'Enjoy20% off miles redemption with a lowered redemption rate.',
-  journeyTitle: 'CHOOSE YOUR SHOPPING JOURNEY',
-  travellerTitle: 'Flying soon? Shop duty-free products (with a Singapore Airlines/Scoot flight booking)',
-  travellerLabel: 'TRAVELLER',
-  travellerLink: '/en/traveller',
-  nonTravellerTitle: 'Not flying? More products available for home delivery',
-  nonTravellerLabel: 'NON-TRAVELLER',
-  nonTravellerLink: '/en',
   segment: 'Non-Travellers',
   search: '/en/search',
   cart: '/en/cart',
@@ -32,23 +25,11 @@ const DEFAULT_NAV = [
 const KEY_ALIASES = {
   logo: 'logo',
   brand: 'logo',
+  'logo image': 'logoImageDesktop',
+  'logo image desktop': 'logoImageDesktop',
+  'logo image mobile': 'logoImageMobile',
   home: 'home',
-  notice: 'notice',
-  'delivery notice': 'notice',
-  promo: 'promo',
-  'promo notice': 'promo',
-  'journey title': 'journeyTitle',
-  'shopping journey title': 'journeyTitle',
   segment: 'segment',
-  'traveller title': 'travellerTitle',
-  'traveller label': 'travellerLabel',
-  'traveller link': 'travellerLink',
-  'non traveller title': 'nonTravellerTitle',
-  'non-traveller title': 'nonTravellerTitle',
-  'non traveller label': 'nonTravellerLabel',
-  'non-traveller label': 'nonTravellerLabel',
-  'non traveller link': 'nonTravellerLink',
-  'non-traveller link': 'nonTravellerLink',
   search: 'search',
   cart: 'cart',
   bag: 'cart',
@@ -65,6 +46,7 @@ const MENU_LABELS = new Set([
   'batik label',
   'new arrivals',
   'travel',
+  'sale',
 ]);
 
 function normalizeHref(value) {
@@ -155,30 +137,6 @@ function createIconLink(href, className, label) {
   return link;
 }
 
-function buildJourney(config) {
-  const journey = createElement('section', 'ks-journey');
-  journey.setAttribute('aria-label', 'Shopping journey');
-
-  const title = createElement('div', 'ks-journey-title', config.journeyTitle);
-  const content = createElement('div', 'ks-journey-content');
-
-  const traveller = createElement('div', 'ks-journey-option');
-  traveller.append(
-    createElement('p', 'ks-journey-copy', config.travellerTitle),
-    createLink({ text: config.travellerLabel, href: config.travellerLink }, 'ks-journey-button ks-journey-button-plane'),
-  );
-
-  const nonTraveller = createElement('div', 'ks-journey-option');
-  nonTraveller.append(
-    createElement('p', 'ks-journey-copy', config.nonTravellerTitle),
-    createLink({ text: config.nonTravellerLabel, href: config.nonTravellerLink }, 'ks-journey-button ks-journey-button-home'),
-  );
-
-  content.append(traveller, nonTraveller);
-  journey.append(title, content);
-  return journey;
-}
-
 function buildMainHeader(config, navItems) {
   const nav = createElement('nav', 'ks-header-main');
   nav.id = 'nav';
@@ -193,7 +151,23 @@ function buildMainHeader(config, navItems) {
   hamburger.append(hamburgerButton);
 
   const brand = createElement('div', 'nav-brand');
-  brand.append(createLink({ text: config.logo, href: config.home }, 'ks-logo'));
+  const logoLink = createLink({ text: config.logoImageDesktop ? '' : config.logo, href: config.home }, 'ks-logo');
+  if (config.logoImageDesktop) {
+    const picture = createElement('picture');
+    if (config.logoImageMobile) {
+      const mobileSource = createElement('source');
+      mobileSource.media = '(max-width: 899px)';
+      mobileSource.srcset = config.logoImageMobile;
+      picture.append(mobileSource);
+    }
+    const image = createElement('img');
+    image.src = config.logoImageDesktop;
+    image.alt = config.logo;
+    image.loading = 'eager';
+    picture.append(image);
+    logoLink.append(picture);
+  }
+  brand.append(logoLink);
 
   const segment = createElement('button', 'ks-segment-select');
   segment.type = 'button';
@@ -243,11 +217,6 @@ function setMenuState(nav, expanded) {
 
 function buildHeader(config, navItems) {
   const wrapper = createElement('div', 'nav-wrapper ks-header');
-
-  if (config.notice) wrapper.append(createElement('div', 'ks-notice', config.notice));
-  wrapper.append(buildJourney(config));
-  if (config.promo) wrapper.append(createElement('div', 'ks-promo-notice', config.promo));
-
   const nav = buildMainHeader(config, navItems);
   nav.querySelector('.nav-hamburger button').addEventListener('click', () => {
     setMenuState(nav, nav.getAttribute('aria-expanded') !== 'true');

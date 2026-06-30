@@ -56,16 +56,9 @@ Recommended `/nav` table:
 | Section | |
 | --- | --- |
 | Logo | KrisShop |
+| Logo Image Desktop | /content/dam/krisshop/sg/common/header/header/logo/kirsshop-logo.svg |
+| Logo Image Mobile | /content/dam/krisshop/sg/common/header/header/logo/mobile-default-logo.svg |
 | Home | / |
-| Notice | Delivery Notice: Overseas Delivery Charge has been updated for selected countries. |
-| Promo | Enjoy20% off miles redemption with a lowered redemption rate. |
-| Journey Title | CHOOSE YOUR SHOPPING JOURNEY |
-| Traveller Title | Flying soon? Shop duty-free products (with a Singapore Airlines/Scoot flight booking) |
-| Traveller Label | TRAVELLER |
-| Traveller Link | /en/traveller |
-| Non Traveller Title | Not flying? More products available for home delivery |
-| Non Traveller Label | NON-TRAVELLER |
-| Non Traveller Link | /en |
 | Segment | Non-Travellers |
 | Categories | /en/category |
 | Brands | /en/brands |
@@ -75,3 +68,5 @@ Recommended `/nav` table:
 | Search | /en/search |
 | Cart | /en/cart |
 | Account | /en/account |
+
+For the full AEM Header XF composition, use `docs/header-xf-authoring.md`.

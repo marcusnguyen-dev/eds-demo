@@ -1,0 +1,123 @@
+/* stylelint-disable selector-class-pattern */
+
+.target-segment-prompt.targetSegmentPrompt {
+  background: #fff;
+  color: #282828;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.target-segment-prompt .targetSegmentPromptBanner {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.target-segment-prompt .targetSegmentPromptContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.target-segment-prompt .targetSegmentPromptOptions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.target-segment-prompt .targetSegmentPromptOption {
+  min-height: 168px;
+  padding: 26px 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.target-segment-prompt .targetSegmentPromptOption + .targetSegmentPromptOption {
+  border-left: 1px solid #e5e5e5;
+}
+
+.target-segment-prompt .targetSegmentPromptOptionHeadline {
+  max-width: 520px;
+  color: #b6b6b6;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.target-segment-prompt .targetSegmentPromptOptionButton {
+  min-width: 290px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #bdbdbd;
+  background: #fff;
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.target-segment-prompt .buttonContentTargetSegment {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.target-segment-prompt .buttonContentIcon {
+  width: 22px;
+  height: 16px;
+  border: 1px solid currentcolor;
+  border-radius: 2px;
+}
+
+.target-segment-prompt .buttonContentIconHome {
+  width: 20px;
+  height: 18px;
+  border-radius: 0;
+  clip-path: polygon(50% 0, 100% 42%, 100% 100%, 0 100%, 0 42%);
+}
+
+.target-segment-prompt .targetSegmentPromptBackdrop {
+  display: none;
+}
+
+@media (width < 768px) {
+  .target-segment-prompt .targetSegmentPromptBanner {
+    min-height: 38px;
+    padding: 0 16px;
+    font-size: 16px;
+  }
+
+  .target-segment-prompt .targetSegmentPromptOptions {
+    grid-template-columns: 1fr;
+  }
+
+  .target-segment-prompt .targetSegmentPromptOption {
+    min-height: auto;
+    padding: 20px 18px;
+  }
+
+  .target-segment-prompt .targetSegmentPromptOption + .targetSegmentPromptOption {
+    border-top: 1px solid #e5e5e5;
+    border-left: 0;
+  }
+
+  .target-segment-prompt .targetSegmentPromptOptionHeadline {
+    font-size: 16px;
+  }
+
+  .target-segment-prompt .targetSegmentPromptOptionButton {
+    min-width: 0;
+    width: 100%;
+  }
+}
