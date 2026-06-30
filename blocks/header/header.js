@@ -243,8 +243,8 @@ function parseFragmentConfig(fragment) {
     return {
       label: getCellText(cells[0]),
       path: getCellValue(cells[1]),
-      position: getCellText(cells[2]).toLowerCase() || 'append',
-      target: getCellText(cells[3]).toLowerCase() || 'body',
+      target: getCellText(cells[2]).toLowerCase() || 'body',
+      position: getCellText(cells[3]).toLowerCase() || 'append',
     };
   }).filter((item) => item.path);
 }
