@@ -1,0 +1,103 @@
+.product-carousel-container .product-carousel-wrapper {
+  max-width: none;
+}
+
+.product-carousel-shell {
+  margin: 0 auto;
+  max-width: 1180px;
+}
+
+.product-carousel-shell h2 {
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-m);
+  letter-spacing: 0;
+  margin: 0 0 20px;
+}
+
+.product-carousel-track {
+  display: grid;
+  gap: 16px;
+  grid-auto-columns: minmax(180px, 1fr);
+  grid-auto-flow: column;
+  overflow-x: auto;
+  padding: 2px 2px 16px;
+  scroll-snap-type: x mandatory;
+}
+
+.product-carousel-card {
+  background: #fff;
+  border: 1px solid #e4e4e4;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  scroll-snap-align: start;
+  text-decoration: none;
+}
+
+.product-carousel-card:hover {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.product-carousel-media {
+  align-items: center;
+  aspect-ratio: 1;
+  background: #f6f6f6;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-carousel-media img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+  width: 100%;
+}
+
+.product-carousel-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+}
+
+.product-carousel-brand,
+.product-carousel-miles {
+  color: var(--dark-color);
+  font-size: var(--body-font-size-xs);
+  line-height: 1.35;
+}
+
+.product-carousel-name {
+  color: var(--text-color);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.product-carousel-price {
+  color: var(--text-color);
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  line-height: 1.35;
+  margin-top: auto;
+}
+
+.product-carousel-message {
+  background: var(--light-color);
+  color: var(--dark-color);
+  font-size: var(--body-font-size-xs);
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 24px;
+}
+
+@media (width >= 900px) {
+  .product-carousel-track {
+    grid-auto-columns: minmax(210px, 1fr);
+  }
+}

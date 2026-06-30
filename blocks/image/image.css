@@ -1,0 +1,26 @@
+.image figure {
+  margin: 0;
+}
+
+.image picture,
+.image img {
+  display: block;
+  width: 100%;
+}
+
+.image img {
+  height: auto;
+  object-fit: cover;
+}
+
+.image a {
+  display: block;
+}
+
+.image figcaption {
+  color: var(--dark-color);
+  font-size: var(--body-font-size-xs);
+  line-height: 1.45;
+  margin-top: 8px;
+  text-align: center;
+}

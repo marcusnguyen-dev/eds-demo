@@ -16,5 +16,13 @@ export default async function decorate(block) {
   const footer = document.createElement('div');
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
 
+  if (!footer.children.length) {
+    footer.innerHTML = `<div>
+        <p><strong>KrisShop</strong></p>
+        <p><a href="/en/help">Help</a> <a href="/en/contact-us">Contact us</a> <a href="/en/privacy">Privacy</a></p>
+        <p>Copyright 2026 KrisShop.</p>
+      </div>`;
+  }
+
   block.append(footer);
 }

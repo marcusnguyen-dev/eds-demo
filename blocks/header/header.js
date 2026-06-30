@@ -124,6 +124,22 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
+  if (!nav.children.length) {
+    nav.innerHTML = `<div>
+        <p><a href="/">KrisShop</a></p>
+      </div>
+      <div>
+        <ul>
+          <li><a href="/en/category/travel">Travel</a></li>
+          <li><a href="/en/promotions">Promotions</a></li>
+          <li><a href="/en/brands">Brands</a></li>
+        </ul>
+      </div>
+      <div>
+        <p><a href="/en/search">Search</a> <a href="/en/cart">Cart</a></p>
+      </div>`;
+  }
+
   const classes = ['brand', 'sections', 'tools'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
@@ -131,7 +147,7 @@ export default async function decorate(block) {
   });
 
   const navBrand = nav.querySelector('.nav-brand');
-  const brandLink = navBrand.querySelector('.button');
+  const brandLink = navBrand?.querySelector('.button');
   if (brandLink) {
     brandLink.className = '';
     brandLink.closest('.button-container').className = '';
