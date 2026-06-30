@@ -9,6 +9,14 @@ header .nav-wrapper {
   font-family: var(--body-font-family);
 }
 
+body > header {
+  height: auto;
+}
+
+header .nav-wrapper .header {
+  visibility: visible;
+}
+
 header .ks-header a {
   color: inherit;
   text-decoration: none;
