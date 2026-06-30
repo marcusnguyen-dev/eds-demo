@@ -146,6 +146,14 @@ function getCookie(name) {
     .join('=') || '';
 }
 
+function decodeCookieValue(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch (e) {
+    return value;
+  }
+}
+
 function setCookie(name, value) {
   document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; SameSite=Lax`;
 }
@@ -171,7 +179,7 @@ function createFlyoutToggle(label, className, behavior) {
 function buildCurrency(config) {
   const wrapper = createElement('div', 'header-element currency-wrapper mr12');
   wrapper.dataset.activeStatePath = 'currencySelect.visible';
-  const selectedCurrency = decodeURIComponent(getCookie('currency') || config.currency || 'SGD').toUpperCase();
+  const selectedCurrency = decodeCookieValue(getCookie('currency') || config.currency || 'SGD').toUpperCase();
   const currencyItems = ['SGD', 'AUD'].map((currency) => {
     const currencyLabel = currency === 'SGD' ? 'Singapore Dollar' : 'Australian Dollar';
     const selected = currency === selectedCurrency;
@@ -211,7 +219,7 @@ function buildCurrency(config) {
 }
 
 function buildSegment(config) {
-  const selectedSegment = decodeURIComponent(getCookie('targetSegment') || 'nonTraveller');
+  const selectedSegment = decodeCookieValue(getCookie('targetSegment') || 'nonTraveller');
   const selectedLabel = selectedSegment === 'traveller' ? config.traveller : config.nonTraveller || config.segment;
   const wrapper = createElement('div', 'header-element travel-segment-wrapper');
   wrapper.dataset.activeStatePath = 'targetSegmentSelect.visible';
@@ -407,9 +415,20 @@ function buildHeader(config, navItems) {
   });
 
   nav.querySelectorAll('.segment-item').forEach((item) => {
-    item.addEventListener('click', () => {
-      setCookie('targetSegment', item.dataset.segmentName);
-      setCookie('targetSegmentReminderSeen', 'true');
+    item.addEventListener('click', (event) => {
+      event.preventDefault();
+      const { segmentName } = item.dataset;
+      const segmentLabel = item.querySelector('.item-label')?.innerHTML;
+      if (!segmentName) return;
+
+      nav.querySelectorAll('.target-segment-items .segment-item').forEach((segmentItem) => {
+        segmentItem.classList.remove('selected');
+      });
+      item.classList.add('selected');
+      if (segmentLabel) {
+        nav.querySelector('[data-behavior="travelSelector"] .segment-name').innerHTML = segmentLabel;
+      }
+      setCookie('targetSegment', segmentName);
       window.location.reload();
     });
   });
@@ -488,7 +507,15 @@ export default async function decorate(block) {
   const fragment = await loadFragment(navPath);
   const { config, navItems } = parseNav(fragment);
   const headerFragments = parseFragmentConfig(fragment);
-  const header = buildHeader(config, navItems);
+  let header;
+  try {
+    header = buildHeader(config, navItems);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('Unable to build AEM-like header, falling back to minimal header.', e);
+    header = createElement('div', 'nav-wrapper ks-header');
+    header.append(buildMainHeader(DEFAULT_CONFIG, DEFAULT_NAV));
+  }
   block.replaceChildren(header);
 
   await Promise.all(headerFragments.map((item) => {
