@@ -1,3 +1,88 @@
 .header-fragments {
   display: none;
 }
+
+body > header .header-fragment {
+  width: 100%;
+}
+
+body > header .header-fragment p {
+  margin: 0;
+}
+
+body > header .header-fragment a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+body > header .header-fragment-delivery-notice,
+body > header .header-fragment-traveller-maintenance,
+body > header .header-fragment-traveller-mode-message {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+}
+
+body > header .header-fragment-delivery-notice {
+  min-height: 76px;
+}
+
+body[data-target-segment="nonTraveller"] > header .header-fragment-traveller-maintenance,
+body[data-target-segment="nonTraveller"] > header .header-fragment-traveller-mode-message {
+  display: none;
+}
+
+body[data-target-segment="traveller"] > header .header-fragment-delivery-notice {
+  display: none;
+}
+
+body > header .header-fragment-promo-message {
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  background: #082063;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
+body > header .header-fragment-promo-message .section,
+body > header .header-fragment-promo-message .html-source-wrapper,
+body > header .header-fragment-promo-message .html-source,
+body > header .header-fragment-promo-message .html-source > div {
+  width: 100%;
+  background: transparent !important;
+}
+
+body > header .header-fragment-promo-message p {
+  padding: 0 !important;
+  color: #fff;
+}
+
+body[data-target-segment="traveller"] > header .header-fragment-promo-message {
+  background: #000;
+}
+
+body > header .header-fragment-promo-message strong,
+body > header .header-fragment-promo-message b {
+  font-weight: 700;
+}
+
+body > header .header-fragment-target-segment,
+body > header .header-fragment-become-krisshopper,
+body > header .header-fragment-cookies {
+  height: 0;
+}

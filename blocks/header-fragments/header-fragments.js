@@ -30,19 +30,54 @@ function getTarget(targetName) {
   return document.querySelector('body > header');
 }
 
+function getCookie(name) {
+  return document.cookie
+    .split(';')
+    .map((item) => item.trim())
+    .find((item) => item.startsWith(`${name}=`))
+    ?.split('=')
+    .slice(1)
+    .join('=') || '';
+}
+
+function decodeCookieValue(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch (e) {
+    return value;
+  }
+}
+
+function addFragmentClass(wrapper, path) {
+  if (path.includes('delivery-notice')) wrapper.classList.add('header-fragment-delivery-notice');
+  if (path.includes('traveller-maintenance')) wrapper.classList.add('header-fragment-traveller-maintenance');
+  if (path.includes('traveller-mode-message')) wrapper.classList.add('header-fragment-traveller-mode-message');
+  if (path.includes('promo-message')) wrapper.classList.add('header-fragment-promo-message');
+  if (path.includes('target-segment')) wrapper.classList.add('header-fragment-target-segment');
+  if (path.includes('become-krisshopper')) wrapper.classList.add('header-fragment-become-krisshopper');
+  if (path.includes('cookies')) wrapper.classList.add('header-fragment-cookies');
+}
+
+function getPosition(path, position) {
+  if (path.includes('delivery-notice')) return 'prepend';
+  if (path.includes('target-segment')) return 'prepend';
+  return position;
+}
+
 function placeFragment(target, fragment, position) {
   const wrapper = document.createElement('div');
   wrapper.className = 'header-fragment';
   wrapper.dataset.headerFragment = fragment.dataset.headerFragment;
   wrapper.dataset.headerFragmentLabel = fragment.dataset.headerFragmentLabel;
+  addFragmentClass(wrapper, fragment.dataset.headerFragment);
   wrapper.append(...fragment.childNodes);
 
-  if (position === 'prepend') {
+  if (getPosition(fragment.dataset.headerFragment, position) === 'prepend') {
     target.prepend(wrapper);
     return;
   }
 
-  if (position === 'before-header-block') {
+  if (getPosition(fragment.dataset.headerFragment, position) === 'before-header-block') {
     const headerBlock = target.querySelector('.header-wrapper');
     if (headerBlock) {
       headerBlock.before(wrapper);
@@ -55,9 +90,11 @@ function placeFragment(target, fragment, position) {
 
 export default async function decorate(block) {
   const items = parseRows(block);
+  const targetSegment = decodeCookieValue(getCookie('targetSegment') || 'nonTraveller');
+  document.body.dataset.targetSegment = targetSegment;
   block.style.display = 'none';
 
-  await Promise.all(items.map(async (item) => {
+  await items.reduce((promise, item) => promise.then(async () => {
     const target = getTarget(item.target);
     if (!target || document.querySelector(`[data-header-fragment="${item.path}"]`)) return;
 
@@ -67,5 +104,5 @@ export default async function decorate(block) {
     fragment.dataset.headerFragment = item.path;
     fragment.dataset.headerFragmentLabel = item.label;
     placeFragment(target, fragment, item.position);
-  }));
+  }), Promise.resolve());
 }
